@@ -1,0 +1,36 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "db": "prisma migrate dev --name init"
+  },
+  "dependencies": {
+    "@unocss/reset": "^0.59.4",
+    "joi": "^17.13.0",
+    "nuxt": "^3.11.2",
+    "oslo": "^1.2.0",
+    "pinia": "^2.1.7",
+    "prisma": "^5.13.0",
+    "unocss": "^0.59.4",
+    "vant": "^4.8.11",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.31",
+    "@iconify-json/noto-v1": "^1.1.11",
+    "@nuxtjs/color-mode": "^3.4.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "^5.13.0",
+    "@unocss/nuxt": "^0.59.4",
+    "@unocss/preset-rem-to-px": "^0.59.4",
+    "@vant/nuxt": "^1.0.4",
+    "postcss-mobile-forever": "^4.1.2"
+  }
+}
