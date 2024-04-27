@@ -34,15 +34,25 @@ export default defineEventHandler(async (event) => {
     return Res("failed", {}, "用户已存在");
   }
 
-  const user: User = await prisma.user.create({
+  // 创建背包backpack 和 用户user
+  let backpack = await prisma.backpack.create({
     data: {
-      phone,
-      password: await hash(password),
-      username,
-      email,
+      user: {
+        create: {
+          phone,
+          password: await hash(password),
+          username,
+          email,
+        },
+      },
     },
   });
-  const { password: _password, ...userWithoutPassword } = user;
+  const user = await prisma.user.findUnique({
+    where: {
+      phone,
+    },
+  });
+  const { password: _password, ...userWithoutPassword } = user!;
 
   return Res("success", { user: userWithoutPassword });
 });

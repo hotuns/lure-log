@@ -4,66 +4,112 @@
 
 ## 表结构
 
-- 用户表 (Users)
+![er](./db-er.png)
 
-  - 用户 ID (UserID) - 主键
-  - 用户名 (Username)
-  - 电话 (Phone)
-  - 电子邮件 (Email)
-  - 密码 (Password)
+### 用户 (`User`)
 
-- 背包表 (Backpack)
-  - 背包 ID (BackpackID) - 主键
-  - 用户 ID (UserID) - 外键关联到用户表的用户 ID
-  - 鱼竿 (FishingRodID) - 外键关联到鱼竿表的鱼竿 ID
-  - 渔轮 (FishingReelID) - 外键关联到卷线器表的卷线器 ID
-- 组合表 (Combos)
-  - 组合 ID (ComboID) - 主键
-  - 用户 ID (UserID) - 外键关联到用户表的用户 ID
-  - 鱼竿 (FishingRodID) - 外键关联到鱼竿表的鱼竿 ID
-  - 渔轮 (FishingReelID) - 外键关联到卷线器表的卷线器 ID
-- 鱼竿表 (FishingRods)
-  - 鱼竿 ID (FishingRodID) - 主键
-  - 品牌 (Brand)
-  - 型号 (Model)
-  - 长度 (Length)
-  - 节数 (Sections)
-  - 硬度 (PowerValue) - 可以是枚举值或外键关联到硬度表
-  - 调性 (Action)
-- 卷线器表 (FishingReels)
-  - 卷线器 ID (FishingReelID) - 主键
-  - 类型 (Type)
-  - 品牌 (Brand)
-  - 型号 (Model)
-  - 重量 (Weight)
-  - 速比 (GearRatio)
-  - 刹车类型 (Braking)
-- 记录表 (Records)
-  - 记录 ID (RecordID) - 主键
-  - 用户 ID (UserID) - 外键关联到用户表的用户 ID
-  - 时间 (Time)
-  - 装备组合 ID (ComboID) - 外键关联到组合表的组合 ID
-  - 天气 (Weather)
-  - 下雨 (Rain)
-  - 气压 (Pressure)
-  - 风速 (WindSpeed)
-  - 风向 (WindDirection)
-  - 钓点 (FishingSpotID) - 外键关联到钓点表的钓点 ID
-- 钓点表 (FishingSpots)
-  - 钓点 ID (FishingSpotID) - 主键
-  - 坐标 (Coordinates)
-  - 位置标签 (LocationTag)
-  - 描述信息 (Description)
-- 渔获图鉴表 (FishRecords)
-  - 记录 ID (RecordID) - 主键
-  - 鱼种 (Species)
-  - 长度 (Length)
-  - 重量 (Weight)
-- 鱼类图鉴表 (FishSpecies)
-  - 鱼类 ID (FishID) - 主键
-  - 鱼种名称 (SpeciesName)
-  - 描述 (Description)
-  - 图片 (ImageURL)
+用户实体包含用户的基本信息和与钓鱼活动相关的数据。
+
+字段说明：
+
+- `id`: 用户的唯一标识。
+- `username`: 用户名，唯一。
+- `phone`: 用户的电话号码，唯一。
+- `email`: 用户的电子邮件地址，可选，唯一。
+- `password`: 用户的密码。
+- `backpack`: 用户的背包，包含钓鱼装备。
+- `combos`: 用户定义的钓鱼组合。
+- `records`: 用户的钓鱼活动记录。
+
+### 背包 (`Backpack`)
+
+背包实体包含用户所拥有的钓鱼装备。
+
+字段说明：
+
+- `id`: 背包的唯一标识。
+- `userId`: 关联的用户 ID。
+- `fishingRods`: 背包中的鱼竿集合。
+- `fishingReels`: 背包中的卷线器集合。
+
+### 组合 (`Combo`)
+
+组合实体表示用户为特定钓鱼活动预设的装备组合。
+
+字段说明：
+
+- `id`: 组合的唯一标识。
+- `name`: 组合的名称。
+- `userId`: 创建该组合的用户 ID。
+- `fishingRodId`: 使用的鱼竿 ID。
+- `fishingReelId`: 使用的卷线器 ID。
+- `Record`: 与该组合关联的钓鱼记录。
+
+### 鱼竿 (`FishingRod`)
+
+鱼竿实体描述了鱼竿的详细规格。
+
+字段说明：
+
+- `id`: 鱼竿的唯一标识。
+- `brand`: 品牌。
+- `model`: 型号。
+- `length`: 长度，单位为米。
+- `sections`: 分段数。
+- `powerValue`: 功率等级。
+- `action`: 弯曲程度。
+
+### 卷线器 (`FishingReel`)
+
+卷线器实体描述了卷线器的详细规格。
+
+字段说明：
+
+- `id`: 卷线器的唯一标识。
+- `type`: 卷线器类型。
+- `brand`: 品牌。
+- `model`: 型号。
+- `weight`: 重量，单位为克。
+- `gearRatio`: 齿轮比。
+- `braking`: 刹车系统类型。
+
+### 记录 (`Record`)
+
+记录实体包含了一次钓鱼活动的详细数据。
+
+字段说明：
+
+- `id`: 记录的唯一标识。
+- `userId`: 用户 ID。
+- `time`: 钓鱼时间。
+- `comboId`: 使用的装备组合 ID。
+- `rain`: 降雨情况。
+- `pressure`: 气压。
+- `windSpeed`: 风速。
+- `windDirection`: 风向。
+- `fishingSpotId`: 钓点 ID。
+
+### 钓点 (`FishingSpot`)
+
+钓点实体包含了钓点的详细描述和位置信息。
+
+字段说明：
+
+- `id`: 钓点的唯一标识。
+- `coordinates`: 坐标。
+- `locationTag`: 地点标签。
+- `description`: 描述。
+
+### 渔获记录 (`FishRecord`)
+
+渔获记录实体包含了单次钓鱼活动中的具体渔获数据。
+
+字段说明：
+
+- `id`: 渔获记录的唯一标识。
+- `species`: 鱼种。
+- `length`: 长度，单位为厘米。
+- `weight`: 重量，单位为克。
 
 ## API 设计
 
