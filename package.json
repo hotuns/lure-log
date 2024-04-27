@@ -29,6 +29,7 @@
     "@nuxtjs/color-mode": "^3.4.0",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.13.0",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/md5": "^2.3.5",
     "@unocss/nuxt": "^0.59.4",
     "@unocss/preset-rem-to-px": "^0.59.4",

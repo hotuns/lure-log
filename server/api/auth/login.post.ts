@@ -1,10 +1,8 @@
 import { User } from "@prisma/client";
 import Joi from "joi";
-import { TimeSpan } from "oslo";
-import { HMAC } from "oslo/crypto";
-import { parseJWT, createJWT, validateJWT } from "oslo/jwt";
+import jwt from "jsonwebtoken";
 
-// 登录，jwt鉴权
+// 登录
 export default defineEventHandler(async (event) => {
   const body = await readBody<{
     phone?: string;
@@ -51,18 +49,25 @@ export default defineEventHandler(async (event) => {
   }
 
   // 验证密码
-  const verified = await verify(password, userExists.password);
+  const verified = verify(password, userExists.password);
   if (!verified) {
     return Res("failed", {}, "密码错误");
   }
 
-  // jwt
-  const token = createJWT(
-    "ES256",
-    secret,
-    {},
+  const secret = process.env.JWT_SECRET || "secret";
+
+  // jwt, 生成token
+  const token = jwt.sign(
     {
-      expiresIn: new TimeSpan(30, "d"),
-    }
+      id: userExists.id,
+      username: userExists.username,
+      phone: userExists.phone,
+    },
+    secret,
+    { expiresIn: "10d" }
   );
+
+  const { password: _password, ...userWithoutPassword } = userExists;
+
+  return Res("success", { token, user: userWithoutPassword });
 });

@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   try {
     await schema.validateAsync(body);
   } catch (error: any) {
-    return Res('failed',{}, '参数错误', error.details);
+    return Res("failed", {}, "参数错误", error.details);
   }
 
   // 判断是否存在
