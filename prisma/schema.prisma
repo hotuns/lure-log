@@ -15,96 +15,97 @@ datasource db {
 
 // 用户
 model User {
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  phone    String    @unique
+  email    String?   @unique
+  password String
+  backpack Backpack?
+  combos   Combo[]
+  records  Record[]
+}
+
+model Backpack {
+  id           Int           @id @default(autoincrement())
+  userId       Int           @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fishingRods  FishingRod[]
+  fishingReels FishingReel[]
+}
+
+model Combo {
   id            Int         @id @default(autoincrement())
-  username      String      @unique
-  email         String?      @unique
-  phone         String     @unique
-  password      String
-  equipment     Equipment[] 
-  records       Record[]
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  fishingRodId  Int
+  fishingRod    FishingRod  @relation(fields: [fishingRodId], references: [id])
+  fishingReelId Int
+  fishingReel   FishingReel @relation(fields: [fishingReelId], references: [id])
+  Record        Record[]
 }
 
-// 装备
-model Equipment {
-  id          Int    @id @default(autoincrement())
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  brand       String  // 品牌
-  model       String  // 型号
-  type        String   // "Rod", "Reel", "Bait", etc.
-  rodDetail  Rod?       
-  reelDetail Reel?      
-  baitDetail Bait?      
+model FishingRod {
+  id         Int       @id @default(autoincrement())
+  brand      String
+  model      String
+  length     Float
+  sections   Int
+  powerValue String
+  action     String
+  backpackId Int?
+  backpack   Backpack? @relation(fields: [backpackId], references: [id])
+  combos     Combo[]
 }
 
-// 鱼竿
-model Rod {
-  id          Int       @id @default(autoincrement())
-  equipmentId Int       @unique
-  equipment   Equipment @relation(fields: [equipmentId], references: [id])
-  length      Float     // 长度
-  sections    Int       // 节数
-  hardness    String    // 硬度
-  tone        String    // 调性
-  weight      Float     // 重量
+model FishingReel {
+  id         Int       @id @default(autoincrement())
+  type       String
+  brand      String
+  model      String
+  weight     Float
+  gearRatio  Float
+  braking    String
+  backpackId Int?
+  backpack   Backpack? @relation(fields: [backpackId], references: [id])
+  combos     Combo[]
 }
 
-// 鱼轮
-model Reel {
-  id          Int        @id @default(autoincrement())
-  equipmentId Int        @unique
-  equipment   Equipment @relation(fields: [equipmentId], references: [id])
-  type        Int    // 类型: 1纺车轮，2两轴轮
-  size        Int       // 尺寸
-  lineCapacity String   // 容线量
-  gearRatio   Float     // 速比
-  brakeType   String    // 刹车类型
-  weight      Float     // 重量
-}
-
-// 鱼饵
-model Bait {
-  id          Int        @id @default(autoincrement())
-  equipmentId Int        @unique
-  equipment   Equipment @relation(fields: [equipmentId], references: [id])
-  type        Int    // 类型 1硬饵  2软饵 
-  weight      Float?    // 重量
-  detail      String?   // 详细描述
-}
-
-// 记录
 model Record {
-  id          Int        @id @default(autoincrement())
-  userId      Int
-  user        User       @relation(fields: [userId], references: [id])
-  dateTime    DateTime  // 记录的时间
-  geoInfo     GeoInfo?   
-  weatherInfo WeatherInfo?
-  fishType    String?   // 鱼种类
-  baitUsed    String?   // 用饵
-  photoUrl    String?   // 图片URL
+  id            Int          @id @default(autoincrement())
+  userId        Int
+  user          User         @relation(fields: [userId], references: [id])
+  time          DateTime
+  comboId       Int?
+  combo         Combo?       @relation(fields: [comboId], references: [id])
+  weather       String
+  rain          Boolean
+  pressure      Float
+  windSpeed     Float
+  windDirection String
+  fishingSpotId Int
+  fishingSpot   FishingSpot  @relation(fields: [fishingSpotId], references: [id])
+  fishRecords   FishRecord[]
 }
 
-// 地理信息
-model GeoInfo {
-  id          Int    @id @default(autoincrement())
-  recordId    Int    @unique
-  record      Record? @relation(fields: [recordId], references: [id])
-  location    String    // 位置描述
-  obstacles   String?   // 障碍情况
-  depth       String?   // 水深
-  waterLayer  String?   // 中鱼水层
-  current     String?   // 流速
+model FishingSpot {
+  id          Int      @id @default(autoincrement())
+  coordinates String
+  locationTag String
+  description String?
+  records     Record[]
 }
 
-// 天气信息
-model WeatherInfo {
-  id          Int    @id @default(autoincrement())
-  recordId    Int    @unique
-  record      Record? @relation(fields: [recordId], references: [id])
-  pressure    Int?      // 气压
-  windDirection String // 风向
-  windForce   String    // 风力
-  temperature Float    // 温度
-  isRaining   Boolean   // 是否下雨
+model FishRecord {
+  id      Int    @id
+  record  Record @relation(fields: [id], references: [id])
+  species String
+  length  Float
+  weight  Float
+}
+
+model FishSpecies {
+  id          Int     @id @default(autoincrement())
+  speciesName String
+  description String?
+  imageURL    String?
 }
