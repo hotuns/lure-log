@@ -13,8 +13,9 @@
   "dependencies": {
     "@unocss/reset": "^0.59.4",
     "joi": "^17.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "md5": "^2.3.0",
     "nuxt": "^3.11.2",
-    "oslo": "^1.2.0",
     "pinia": "^2.1.7",
     "prisma": "^5.13.0",
     "unocss": "^0.59.4",
@@ -28,6 +29,7 @@
     "@nuxtjs/color-mode": "^3.4.0",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.13.0",
+    "@types/md5": "^2.3.5",
     "@unocss/nuxt": "^0.59.4",
     "@unocss/preset-rem-to-px": "^0.59.4",
     "@vant/nuxt": "^1.0.4",

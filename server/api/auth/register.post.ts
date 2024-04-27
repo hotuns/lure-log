@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   try {
     await schema.validateAsync(body);
   } catch (error: any) {
-    return { code: 1, msg: "参数错误", data: {}, error: error.details };
+    return Res('failed',{}, '参数错误', error.details);
   }
 
   // 判断是否存在
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
   });
 
   if (userExists) {
-    return { code: 1, msg: "用户已存在", data: {} };
+    return Res("failed", {}, "用户已存在");
   }
 
   const user: User = await prisma.user.create({
@@ -44,9 +44,5 @@ export default defineEventHandler(async (event) => {
   });
   const { password: _password, ...userWithoutPassword } = user;
 
-  return {
-    code: 0,
-    msg: "注册成功",
-    data: userWithoutPassword,
-  };
+  return Res("success", { user: userWithoutPassword });
 });

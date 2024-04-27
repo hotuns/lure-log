@@ -49,12 +49,6 @@ export default defineNuxtConfig({
       ],
     },
   },
-  runtimeConfig: {
-    cookieName: "__session",
-    cookieSecret: "secret",
-    cookieExpires: ONE_DAY.toString(),
-    cookieRememberMeExpires: ONE_WEEK.toString(),
-  },
 
   colorMode: {
     classSuffix: "",
