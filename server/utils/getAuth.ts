@@ -10,7 +10,7 @@ export const getAuth = (event: H3Event<EventHandlerRequest>): Auth => {
 
   if (!auth) {
     throw createError({
-      statusCode: 400,
+      statusCode: 401,
       statusMessage: "未登录",
     });
   }

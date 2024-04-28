@@ -62,7 +62,7 @@ export const useAvatarList = () => {
       },
       {
         path: "/avatar_name/狗.png",
-        name: "狗",
+        name: "狗鱼",
       },
       {
         path: "/avatar_name/鳜.png",

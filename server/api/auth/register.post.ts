@@ -12,7 +12,9 @@ export default defineEventHandler(async (event) => {
 
   const schema = Joi.object({
     phone: Joi.string().pattern(new RegExp("^[0-9]{11}$")),
-    password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{4,30}$")),
+    password: Joi.string()
+      .pattern(new RegExp("^[a-zA-Z0-9]{6,30}$"))
+      .required(),
     username: Joi.string().alphanum().min(3).max(30).required(),
     email: Joi.string().email(),
   });

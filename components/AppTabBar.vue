@@ -21,14 +21,14 @@ const active = ref("home");
     <van-tabbar-item>
       <span>出击</span>
       <template #icon>
-        <div class="i-noto-v1-glowing-star" />
+        <div class="i-noto-v1-fishing-pole" />
       </template>
     </van-tabbar-item>
 
-    <van-tabbar-item replace to="/equipment">
-      <span>装备</span>
+    <van-tabbar-item replace to="/backpack">
+      <span>物品</span>
       <template #icon>
-        <div class="i-noto-v1-fishing-pole" />
+        <div class="i-noto-v1-backpack" />
       </template>
     </van-tabbar-item>
 
