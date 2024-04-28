@@ -6,5 +6,5 @@ export function hash(plainPassword: string) {
 }
 
 export function verify(hashstr: string, plainPassword: string) {
-  return hashstr === hash(plainPassword);
+  return plainPassword === hash(hashstr);
 }

@@ -35,14 +35,15 @@ export default defineEventHandler(async (event) => {
   }
 
   // 创建背包backpack 和 用户user
-  let backpack = await prisma.backpack.create({
+  await prisma.backpack.create({
     data: {
       user: {
         create: {
           phone,
-          password: await hash(password),
+          password: hash(password),
           username,
           email,
+          avatar: "/avatar/default.png",
         },
       },
     },

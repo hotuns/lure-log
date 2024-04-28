@@ -19,6 +19,7 @@ model User {
   username String    @unique
   phone    String    @unique
   email    String?   @unique
+  avatar   String?
   password String
   backpack Backpack?
   combos   Combo[]

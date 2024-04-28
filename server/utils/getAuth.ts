@@ -6,5 +6,13 @@ interface Auth {
   phone: string;
 }
 export const getAuth = (event: H3Event<EventHandlerRequest>): Auth => {
-  return event.context.auth as Auth;
+  const auth = event.context.auth as Auth;
+
+  if (!auth) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "未登录",
+    });
+  }
+  return auth;
 };

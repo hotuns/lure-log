@@ -2,7 +2,8 @@
 export default defineEventHandler(async (event) => {
   const { id } = getAuth(event);
 
-  const keyword = getRouterParam(event, "keyword");
+  const query = getQuery(event);
+  const keyword = query.keyword as string;
 
   //   brand, model 包含关键词
   const rods = await prisma.fishingRod.findMany({
