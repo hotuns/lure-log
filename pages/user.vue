@@ -1,11 +1,13 @@
 <script setup lang="ts">
 definePageMeta({
-  name: 'User',
+  name: 'user',
   layout: "home",
 });
 
 const color = useColorMode();
-const { authUser, update } = useAuth();
+const { auth } = useApi()
+const userStore = useUserStore();
+const authUser = userStore.getUserInfo?.user
 
 useHead({
   meta: [
@@ -39,15 +41,17 @@ const changeAvatar = async (path: string) => {
     title: "提示",
     message: "确定修改头像吗？",
   }).then(async () => {
-    const data = await update({
+    if (!authUser) return
+
+    const res = await auth.update({
       avatar: path,
-      phone: authUser.value.phone,
-      username: authUser.value.username
+      phone: authUser.phone,
+      username: authUser.username
     })
 
-    if (data?.value?.code === 'success') {
+    if (res.success) {
       showSuccessToast('修改成功')
-      authUser.value.avatar = data?.value.data.user.avatar
+      authUser.avatar = res.data.user.avatar
     } else {
       showFailToast('修改失败')
     }

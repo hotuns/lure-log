@@ -20,5 +20,5 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  return Res("success", { user });
+  return Res({ user });
 });

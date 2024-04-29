@@ -22,6 +22,5 @@ export default defineEventHandler(async (event) => {
       ],
     },
   });
-
-  return Res("success", { reels });
+  return Res({ reels });
 });

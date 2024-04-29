@@ -21,7 +21,10 @@ export default defineEventHandler(async (event) => {
   try {
     await schema.validateAsync(body);
   } catch (error: any) {
-    return Res("failed", {}, "参数错误", error.details);
+    return Res(undefined, {
+      success: false,
+      message: "参数错误",
+    });
   }
 
   let u = getAuth(event);
@@ -40,6 +43,5 @@ export default defineEventHandler(async (event) => {
   });
 
   const userWithoutPassword = { ...user, password: undefined };
-
-  return Res("success", { user: userWithoutPassword });
+  return Res({ user: userWithoutPassword });
 });

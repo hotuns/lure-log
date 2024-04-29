@@ -35,6 +35,5 @@ export default defineEventHandler(async (event) => {
       },
     });
   }
-
-  return Res("success", { backpack });
+  return Res({ backpack });
 });

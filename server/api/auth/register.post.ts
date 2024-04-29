@@ -22,7 +22,10 @@ export default defineEventHandler(async (event) => {
   try {
     await schema.validateAsync(body);
   } catch (error: any) {
-    return Res("failed", {}, "参数错误", error.details);
+    return Res(error.details, {
+      success: false,
+      message: "参数错误",
+    });
   }
 
   // 判断是否存在
@@ -33,7 +36,10 @@ export default defineEventHandler(async (event) => {
   });
 
   if (userExists) {
-    return Res("failed", {}, "用户已存在");
+    return Res(undefined, {
+      success: false,
+      message: "用户已存在",
+    });
   }
 
   // 创建背包backpack 和 用户user
@@ -56,6 +62,5 @@ export default defineEventHandler(async (event) => {
     },
   });
   const { password: _password, ...userWithoutPassword } = user!;
-
-  return Res("success", { user: userWithoutPassword });
+  return Res({ user: userWithoutPassword });
 });

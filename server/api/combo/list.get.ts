@@ -11,6 +11,5 @@ export default defineEventHandler(async (event) => {
       fishingReel: true,
     },
   });
-
-  return Res("success", { combos });
+  return Res({ combos });
 });

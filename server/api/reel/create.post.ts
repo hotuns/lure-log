@@ -21,8 +21,12 @@ export default defineEventHandler(async (event) => {
       weight,
       gearRatio,
       braking,
+      backpack: {
+        connect: {
+          userId: id,
+        },
+      },
     },
   });
-
-  return Res("success", { reel });
+  return Res({ reel });
 });

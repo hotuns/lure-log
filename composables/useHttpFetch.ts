@@ -36,7 +36,7 @@ export const useHttpFetch = <T>(url: string, opt: FetchOptions) => {
       // 401 未登录
       if (response.status === 401) {
         accessToken.value = undefined;
-        navigateTo("/login");
+        navigateTo({ name: "login" });
       } else {
         showToast("出错了");
       }

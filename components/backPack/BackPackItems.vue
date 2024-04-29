@@ -11,19 +11,21 @@ const { fishingRods, fishingReels } = toRefs(props);
 
 const active = ref(0);
 
-
+const toCreateRod = () => {
+    navigateTo({ name: 'backpack-createRod' });
+};
+const toCreateReel = () => {
+    navigateTo({ name: 'backpack-createReel' });
+};
 
 </script>
 
 <template>
     <div class="m-10">
-
-
-
         <van-tabs v-model:active="active" type="card">
             <van-tab title="鱼竿">
                 <van-empty v-if="fishingRods.length === 0" description="你似乎没有鱼竿">
-                    <van-button round type="primary" class="bottom-button">马上添加鱼竿</van-button>
+                    <van-button round type="primary" class="bottom-button" @click="toCreateRod">马上添加鱼竿</van-button>
                 </van-empty>
 
                 <van-cell-group v-else inset>
@@ -34,7 +36,7 @@ const active = ref(0);
             </van-tab>
             <van-tab title="卷线器">
                 <van-empty v-if="fishingReels.length === 0" description="你似乎没有卷线器">
-                    <van-button round type="primary" class="bottom-button">马上添加卷线器</van-button>
+                    <van-button round type="primary" class="bottom-button" @click="toCreateReel">马上添加卷线器</van-button>
                 </van-empty>
 
 

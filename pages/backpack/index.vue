@@ -9,9 +9,7 @@ const route = useRoute();
 const activeTab = ref<"items" | "combos">("items");
 const beforeChange = (tab: string) => {
   console.log("beforeChange", tab);
-  // change query
   route.query.active = tab;
-
   return true;
 };
 
@@ -28,7 +26,17 @@ const onSelect = (item: any) => {
   // 默认情况下点击选项时不会自动收起
   // 可以通过 close-on-click-action 属性开启自动收起
   showAction.value = false;
-  showToast(item.name);
+  switch (item.name) {
+    case '添加鱼竿':
+      navigateTo({ name: 'backpack-createRod' });
+      break;
+    case '添加卷线器':
+      navigateTo({ name: 'backpack-createReel' });
+      break;
+    case '添加组合':
+      navigateTo({ name: 'backpack-createCombo' });
+      break;
+  }
 };
 
 </script>
@@ -53,16 +61,13 @@ const onSelect = (item: any) => {
     </div>
 
     <!-- 内容 -->
-    <div v-if="items">
-      <BackPackItems :fishingRods="items.fishingRods" :fishingReels="items.fishingReels" />
+    <div v-if="items && activeTab === 'items'">
+      <BackPackItems :fishingRods="items!.fishingRods" :fishingReels="items!.fishingReels" />
     </div>
 
     <van-action-sheet v-model:show="showAction" description="你想要添加什么呢？" :actions="actions" @select="onSelect" />
 
   </div>
-
-
-
 </template>
 
 <style scoped></style>

@@ -13,7 +13,10 @@ export default defineEventHandler(async (event) => {
   const { phone, password, username } = body;
   // 用户名或者手机号必须有一个
   if (!phone && !username) {
-    return Res("failed", {}, "用户名或手机号必须有一个");
+    return Res(undefined, {
+      success: false,
+      message: "用户名或手机号必须有一个",
+    });
   }
 
   const schema = Joi.object({
@@ -27,7 +30,10 @@ export default defineEventHandler(async (event) => {
   try {
     await schema.validateAsync(body);
   } catch (error: any) {
-    return Res("failed", {}, "参数错误", error.details);
+    return Res(error.details, {
+      success: false,
+      message: "参数错误",
+    });
   }
 
   // 判断是否存在
@@ -45,16 +51,23 @@ export default defineEventHandler(async (event) => {
   });
 
   if (!userExists) {
-    return Res("failed", {}, "用户不存在");
+    return Res(undefined, {
+      success: false,
+      message: "用户不存在",
+    });
   }
 
   // 验证密码
   const verified = verify(password, userExists.password);
   if (!verified) {
-    return Res("failed", {}, "密码错误");
+    return Res(undefined, {
+      success: false,
+      message: "密码错误",
+    });
   }
 
   const secret = process.env.JWT_SECRET || "secret";
+  const expiresIn = process.env.EXPIRESIN || "3d";
 
   // jwt, 生成token
   const token = jwt.sign(
@@ -64,10 +77,12 @@ export default defineEventHandler(async (event) => {
       phone: userExists.phone,
     },
     secret,
-    { expiresIn: "10d" }
+    { expiresIn }
   );
 
   const { password: _password, ...userWithoutPassword } = userExists;
-
-  return Res("success", { token, user: userWithoutPassword });
+  return Res({
+    token,
+    user: userWithoutPassword,
+  });
 });

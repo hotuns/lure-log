@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import { useUserStore } from '~/stores/user.store'
+
 definePageMeta({
   title: "登录",
+  name: "login",
 });
 
-const { login, register } = useAuth();
+const userStore = useUserStore();
 
 const phone = ref("");
 const password = ref("");
@@ -13,21 +16,16 @@ const onLogin = async (values: any) => {
     forbidClick: true,
   });
 
-  try {
-    let data = await login({
-      phone: phone.value,
-      password: password.value,
-    });
+  await userStore.login({
+    phone: phone.value,
+    password: password.value,
+  })
 
-    if (data?.value?.code === "success") {
-      navigateTo("/user");
-    }
-  } catch (error: any) {
-    console.log(error);
-  }
+  navigateTo({ name: "user" });
+
 };
 const toRegister = () => {
-  navigateTo("/register");
+  navigateTo({ name: "register" });
 };
 </script>
 

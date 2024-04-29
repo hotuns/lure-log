@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 definePageMeta({
     title: "注册",
+    name: "register",
 });
 
-const { register } = useAuth();
+const userStore = useUserStore();
+const { auth } = useApi()
 
 const username = ref("");
 const phone = ref("");
@@ -23,20 +25,21 @@ const onRegister = async (values: any) => {
         }
 
         // 注册
-        let data = await register({
+        let data = await auth.register({
             phone: phone.value,
             username: username.value,
             password: password.value,
         });
 
 
-        if (data?.value?.code === "success") {
+
+        if (data.success) {
             showDialog({
                 title: "恭喜",
                 message: "注册成功，立即登录",
             }).then(() => {
                 // on close
-                navigateTo('/login')
+                navigateTo({ name: "login" });
             });
         }
 
@@ -46,7 +49,7 @@ const onRegister = async (values: any) => {
 };
 
 const backToLogin = () => {
-    navigateTo("/login");
+    navigateTo({ name: "login" });
 };
 </script>
 
