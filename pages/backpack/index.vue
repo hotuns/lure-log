@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 definePageMeta({
+  name: "backpack",
   layout: "home",
   title: "物品",
 });
@@ -8,13 +9,13 @@ definePageMeta({
 const route = useRoute();
 const activeTab = ref<"items" | "combos">("items");
 const beforeChange = (tab: string) => {
-  console.log("beforeChange", tab);
+  loadBackPack()
   route.query.active = tab;
   return true;
 };
 
-const { items, getBackPackItems } = useBackPack();
-getBackPackItems()
+const { getOwnRods, getOwnReels, loadBackPack } = useBackpackStore();
+loadBackPack()
 
 const showAction = ref(false);
 const actions = [
@@ -61,9 +62,8 @@ const onSelect = (item: any) => {
     </div>
 
     <!-- 内容 -->
-    <div v-if="items && activeTab === 'items'">
-      <BackPackItems :fishingRods="items!.fishingRods" :fishingReels="items!.fishingReels" />
-    </div>
+    <BackPackItems :fishingRods="getOwnRods" :fishingReels="getOwnReels" />
+
 
     <van-action-sheet v-model:show="showAction" description="你想要添加什么呢？" :actions="actions" @select="onSelect" />
 

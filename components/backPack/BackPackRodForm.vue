@@ -1,12 +1,19 @@
 <script setup lang='ts'>
 import type { Action, PowerValue } from '@prisma/client';
 
-const brand = ref('');
-const model = ref('');
-const length = ref('');
-const sections = ref('');
-const powerValue = ref('');
-const action = ref('');
+const props = defineProps<{
+    data: {
+        brand: string;
+        model: string;
+        length: number;
+        sections: number;
+        powerValue: string;
+        action: string;
+    };
+}>();
+const emits = defineEmits(['submit']);
+const { data } = toRefs(props);
+
 const showPowerValuePicker = ref(false);
 const showActionPicker = ref(false);
 
@@ -70,30 +77,19 @@ const actions: { text: Action, value: Action }[] = [
     }
 ];
 
-const { createRod } = useBackPack();
-
 const onSubmit = async (values: any) => {
-    console.log('submit', values);
-    // 这里可以添加向后端发送数据的代码
-    createRod({
-        brand: brand.value,
-        model: model.value,
-        length: Number(length.value),
-        sections: Number(sections.value),
-        powerValue: powerValue.value,
-        action: action.value
-    });
+    emits('submit', unref(data));
 };
 
 const onPowerValueConfirm = (res: any) => {
     let opt = res.selectedOptions[0];
-    powerValue.value = opt.value;
+    data.value.powerValue = opt.value;
     showPowerValuePicker.value = false;
 };
 
 const onActionConfirm = (res: any) => {
     let opt = res.selectedOptions[0];
-    action.value = opt.value;
+    data.value.action = opt.value;
     showActionPicker.value = false;
 };
 </script>
@@ -101,21 +97,21 @@ const onActionConfirm = (res: any) => {
 <template>
     <van-form @submit="onSubmit">
         <van-cell-group inset>
-            <van-field v-model="brand" name="品牌" label="品牌" placeholder="请输入品牌"
+            <van-field v-model="data.brand" name="品牌" label="品牌" placeholder="请输入品牌"
                 :rules="[{ required: true, message: '请填写品牌' }]" />
-            <van-field v-model="model" name="型号" label="型号" placeholder="请输入型号"
+            <van-field v-model="data.model" name="型号" label="型号" placeholder="请输入型号"
                 :rules="[{ required: true, message: '请填写型号' }]" />
-            <van-field v-model="length" name="长度" label="长度 (cm)" placeholder="请输入长度" type="number"
+            <van-field v-model="data.length" name="长度" label="长度 (cm)" placeholder="请输入长度" type="digit"
                 :rules="[{ required: true, message: '请填写长度' }]" />
             <van-field name="stepper" label="分节数" placeholder="鱼竿能分几段；独节写1">
                 <template #input>
-                    <van-stepper v-model="sections" />
+                    <van-stepper v-model="data.sections" />
                 </template>
             </van-field>
-            <van-field v-model="powerValue" name="硬度" label="硬度" placeholder="请选择硬度"
+            <van-field v-model="data.powerValue" name="硬度" label="硬度" placeholder="请选择硬度"
                 :rules="[{ required: true, message: '请选择硬度' }]" is-link clickable readonly
                 @click="showPowerValuePicker = true" />
-            <van-field v-model="action" name="调性" label="调性" placeholder="请选择调性"
+            <van-field v-model="data.action" name="调性" label="调性" placeholder="请选择调性"
                 :rules="[{ required: true, message: '请选择调性' }]" is-link clickable readonly
                 @click="showActionPicker = true" />
         </van-cell-group>

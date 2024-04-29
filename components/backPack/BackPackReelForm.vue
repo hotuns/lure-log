@@ -101,7 +101,7 @@ const onBrakingConfirm = (res: any) => {
                 :rules="[{ required: true, message: '请填写型号' }]" />
             <van-field v-model="weight" name="重量" label="重量 (g)" placeholder="请输入重量" type="number"
                 :rules="[{ required: true, message: '请填写重量' }]" />
-            <van-field v-model="gearRatio" name="齿比" label="齿比" placeholder="请输入齿比"
+            <van-field v-model="gearRatio" name="齿比" type="digit" label="齿比" placeholder="请输入齿比"
                 :rules="[{ required: true, message: '请填写齿比' }]" />
 
             <van-field v-model="braking" name="刹车类型" label="刹车类型" placeholder="请选择刹车类型"

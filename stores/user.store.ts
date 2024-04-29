@@ -11,10 +11,21 @@ function storeSetup() {
     userInfo.value = info;
   };
   const login = async (params: LoginParams) => {
+    console.log("store login", params);
     const { auth } = useApi();
-    const { data } = await auth.login(params);
-    userInfo.value = data;
-    return data;
+    try {
+      const res = await auth.login(params);
+      if (res.success) {
+        userInfo.value = res.data;
+        return res.data;
+      } else {
+        showFailToast(res.message);
+        return null;
+      }
+    } catch (error) {
+      showFailToast("登录失败");
+      return null;
+    }
   };
   const clearUserInfo = () => {
     userInfo.value = undefined;

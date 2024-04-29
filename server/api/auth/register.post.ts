@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     password: Joi.string()
       .pattern(new RegExp("^[a-zA-Z0-9]{6,30}$"))
       .required(),
-    username: Joi.string().alphanum().min(3).max(30).required(),
+    username: Joi.string().alphanum().min(3).max(10).required(),
     email: Joi.string().email(),
   });
 

@@ -65,6 +65,7 @@ const backToLogin = () => {
 
                 <van-field v-model="password" type="password" name="密码" label="密码" placeholder="密码"
                     :rules="[{ required: true, message: '任意字母数字组合，最小长度6', pattern: /^[a-zA-Z0-9]{6,30}$/ }]" />
+
                 <van-field v-model="rePassword" type="password" name="确认密码" label="确认密码" placeholder="确认密码"
                     :rules="[{ required: true, message: '密码不一致', validator: validatorRePassword }]" />
             </van-cell-group>

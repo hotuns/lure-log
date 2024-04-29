@@ -8,6 +8,10 @@ const color = useColorMode();
 const { auth } = useApi()
 const userStore = useUserStore();
 const authUser = userStore.getUserInfo?.user
+const logout = () => {
+  userStore.logout()
+  navigateTo({ name: 'login' })
+}
 
 useHead({
   meta: [
@@ -67,41 +71,50 @@ const changeAvatar = async (path: string) => {
 </script>
 
 <template>
-
-  <van-cell-group inset v-if="authUser">
-    <van-cell center value="修改头像" is-link @click="onAvatarClick">
-      <template #title>
-        <van-image width="10rem" height="10rem" fit="contain" :src="authUser.avatar || '/avatar/default.png'" />
-      </template>
-    </van-cell>
-    <van-cell title="用户名" :value="authUser.username" />
-    <van-cell title="手机号" :value="authUser.phone" />
-    <van-cell title="修改密码" is-link />
-  </van-cell-group>
-
-  <!-- 设置头像 -->
-  <van-popup v-model:show="showSetAvatar" teleport="body" position="bottom" :style="{ height: '70%' }">
-    <div>
-      <van-grid :column-num="3">
-        <van-grid-item v-for="i in avatarList.avatar" :key="i.name" :text="i.name" @click="changeAvatar(i.path)">
-          <van-image :src="i.path" />
-        </van-grid-item>
-
-        <van-grid-item v-for="i in avatarList.avatarWithName" :key="i.name" :text="i.name"
-          @click="changeAvatar(i.path)">
-          <van-image :src="i.path" />
-        </van-grid-item>
-      </van-grid>
-    </div>
-  </van-popup>
+  <div>
 
 
+    <van-cell-group inset v-if="authUser">
+      <van-cell center value="修改头像" is-link @click="onAvatarClick">
+        <template #title>
+          <van-image width="10rem" height="10rem" fit="contain" :src="authUser.avatar || '/avatar/default.png'" />
+        </template>
+      </van-cell>
+      <van-cell title="用户名" :value="authUser.username" />
+      <van-cell title="手机号" :value="authUser.phone" />
+      <van-cell title="修改密码" is-link />
+      <van-cell title="退出登录" is-link @click="logout" />
+    </van-cell-group>
 
-  <VanCellGroup inset title="设置">
-    <VanCell center title="🌗 暗黑模式">
-      <template #right-icon>
-        <VanSwitch v-model="checked" size="20px" aria-label="on/off Dark Mode" @click="toggleDark" />
-      </template>
-    </VanCell>
-  </VanCellGroup>
+    <van-cell-group inset v-else>
+      <van-cell center title="立即登录" is-link @click="navigateTo({ name: 'login' })">
+      </van-cell>
+    </van-cell-group>
+
+    <!-- 设置头像 -->
+    <van-popup v-model:show="showSetAvatar" teleport="body" position="bottom" :style="{ height: '70%' }">
+      <div>
+        <van-grid :column-num="3">
+          <van-grid-item v-for="i in avatarList.avatar" :key="i.name" :text="i.name" @click="changeAvatar(i.path)">
+            <van-image :src="i.path" />
+          </van-grid-item>
+
+          <van-grid-item v-for="i in avatarList.avatarWithName" :key="i.name" :text="i.name"
+            @click="changeAvatar(i.path)">
+            <van-image :src="i.path" />
+          </van-grid-item>
+        </van-grid>
+      </div>
+    </van-popup>
+
+
+
+    <VanCellGroup inset title="设置">
+      <VanCell center title="🌗 暗黑模式">
+        <template #right-icon>
+          <VanSwitch v-model="checked" size="20px" aria-label="on/off Dark Mode" @click="toggleDark" />
+        </template>
+      </VanCell>
+    </VanCellGroup>
+  </div>
 </template>
