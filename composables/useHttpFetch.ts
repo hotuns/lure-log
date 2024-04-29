@@ -3,16 +3,23 @@ interface FetchOptions {
   [key: string]: any;
 }
 
-export const useHttpFetch = (url: string, opt: FetchOptions) => {
-  const token = useCookie("token");
-  if (token) {
+interface FetchResponse<T> {
+  code: "success" | "failed";
+  data: T | any;
+  msg?: string;
+  error?: any;
+}
+
+export const useHttpFetch = <T>(url: string, opt: FetchOptions) => {
+  const accessToken = useCookie("accessToken");
+  if (accessToken) {
     opt.headers = {
       ...opt.headers,
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken.value}`,
     };
   }
 
-  return useFetch(url, {
+  return useFetch<FetchResponse<T>>(url, {
     ...opt,
     headers: {
       "Content-Type": "application/json",
@@ -21,8 +28,18 @@ export const useHttpFetch = (url: string, opt: FetchOptions) => {
     onRequest: ({ request, options }) => {},
     onRequestError: ({ request, options, error }) => {},
     onResponse: ({ response, options }) => {
-      return response._data;
+      if (response._data.code === "failed") {
+        showFailToast(response._data.msg);
+      }
     },
-    onResponseError: ({ request, options, error }) => {},
+    onResponseError: ({ response, options, error }) => {
+      // 401 未登录
+      if (response.status === 401) {
+        accessToken.value = undefined;
+        navigateTo({ name: "login" });
+      } else {
+        showToast("出错了");
+      }
+    },
   });
 };

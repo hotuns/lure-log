@@ -19,6 +19,7 @@ model User {
   username String    @unique
   phone    String    @unique
   email    String?   @unique
+  avatar   String?
   password String
   backpack Backpack?
   combos   Combo[]
@@ -81,16 +82,17 @@ model FishingRod {
 }
 
 enum Braking {
+  NoBraking //无刹车
   SpoolTension //机械刹车（线张力）
   Centrifugal //离心刹车
   Magnetic //磁力刹车
-  electronic //电子刹车
+  Electronic //电子刹车
 }
 
 enum ReelType {
   Spinning //纺车轮
   Casting // 水滴轮
-  conventional // 鼓轮/传统轮
+  Conventional // 鼓轮/传统轮
 }
 
 // 卷线器

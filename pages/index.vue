@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "home",
+  name: 'home',
 });
 </script>
 

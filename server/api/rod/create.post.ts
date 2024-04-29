@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
 
   const { brand, model, length, sections, powerValue, action } = body;
 
+  // 创建并加入到背包
   const rod = await prisma.fishingRod.create({
     data: {
       brand,
@@ -23,8 +24,12 @@ export default defineEventHandler(async (event) => {
       sections,
       powerValue,
       action,
+      backpack: {
+        connect: {
+          userId: id,
+        },
+      },
     },
   });
-
-  return Res("success", { rod });
+  return Res({ rod });
 });

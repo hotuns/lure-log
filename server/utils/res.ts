@@ -1,15 +1,27 @@
-export const Res = (
-  code: "success" | "failed",
+interface ResOptions<T> {
+  data: T;
+  code: number;
+  message: string;
+  success: boolean;
+}
+
+export const Res = <T = any>(
   data: any,
-  msg?: string,
-  error?: any
+  opt?: {
+    code?: number;
+    message?: string;
+    success?: boolean;
+  }
 ) => {
-  msg = msg || (code === "success" ? "成功" : "失败");
+  let optDefault = {
+    code: 200,
+    message: "success",
+    success: true,
+  };
+  opt = { ...optDefault, ...opt };
 
   return {
-    code,
-    msg,
     data,
-    error,
-  };
+    ...opt,
+  } as ResOptions<T>;
 };

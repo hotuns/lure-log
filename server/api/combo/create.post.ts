@@ -29,6 +29,5 @@ export default defineEventHandler(async (event) => {
       },
     },
   });
-
-  return Res("success", { combo });
+  return Res({ combo });
 });

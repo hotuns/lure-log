@@ -27,6 +27,5 @@ export default defineEventHandler(async (event) => {
       braking,
     },
   });
-
-  return Res("success", { reel });
+  return Res({ reel });
 });

@@ -12,15 +12,20 @@ export default defineEventHandler(async (event) => {
 
   const schema = Joi.object({
     phone: Joi.string().pattern(new RegExp("^[0-9]{11}$")),
-    password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{4,30}$")),
-    username: Joi.string().alphanum().min(3).max(30).required(),
+    password: Joi.string()
+      .pattern(new RegExp("^[a-zA-Z0-9]{6,30}$"))
+      .required(),
+    username: Joi.string().alphanum().min(3).max(10).required(),
     email: Joi.string().email(),
   });
 
   try {
     await schema.validateAsync(body);
   } catch (error: any) {
-    return Res("failed", {}, "参数错误", error.details);
+    return Res(error.details, {
+      success: false,
+      message: "参数错误",
+    });
   }
 
   // 判断是否存在
@@ -31,18 +36,22 @@ export default defineEventHandler(async (event) => {
   });
 
   if (userExists) {
-    return Res("failed", {}, "用户已存在");
+    return Res(undefined, {
+      success: false,
+      message: "用户已存在",
+    });
   }
 
   // 创建背包backpack 和 用户user
-  let backpack = await prisma.backpack.create({
+  await prisma.backpack.create({
     data: {
       user: {
         create: {
           phone,
-          password: await hash(password),
+          password: hash(password),
           username,
           email,
+          avatar: "/avatar/default.png",
         },
       },
     },
@@ -53,6 +62,5 @@ export default defineEventHandler(async (event) => {
     },
   });
   const { password: _password, ...userWithoutPassword } = user!;
-
-  return Res("success", { user: userWithoutPassword });
+  return Res({ user: userWithoutPassword });
 });

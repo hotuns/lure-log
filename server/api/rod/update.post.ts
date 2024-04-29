@@ -36,5 +36,5 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  return Res("success", { rod });
+  return Res({ rod });
 });
