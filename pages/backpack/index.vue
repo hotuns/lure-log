@@ -9,13 +9,18 @@ definePageMeta({
 const route = useRoute();
 const activeTab = ref<"items" | "combos">("items");
 const beforeChange = (tab: string) => {
-  loadBackPack()
+  refresh()
   route.query.active = tab;
   return true;
 };
+onMounted(() => {
+  refresh()
+})
 
-const { getOwnRods, getOwnReels, loadBackPack } = useBackpackStore();
-loadBackPack()
+const bpStore = useBackpackStore();
+
+const { data, pending, refresh } = await useAsyncData("backpack_items", () => bpStore.loadBackPackItems());
+
 
 const showAction = ref(false);
 const actions = [
@@ -62,7 +67,7 @@ const onSelect = (item: any) => {
     </div>
 
     <!-- 内容 -->
-    <BackPackItems :fishingRods="getOwnRods" :fishingReels="getOwnReels" />
+    <BackPackItems :fishingRods="bpStore.getOwnRods" :fishingReels="bpStore.getOwnReels" />
 
 
     <van-action-sheet v-model:show="showAction" description="你想要添加什么呢？" :actions="actions" @select="onSelect" />

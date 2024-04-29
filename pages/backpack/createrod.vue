@@ -8,12 +8,12 @@ definePageMeta({
 });
 
 const backPackStore = useBackpackStore();
-const { getRandomRods, loadRandomRods } = backPackStore;
 onMounted(() => {
-    loadRandomRods()
+    refresh()
 })
+const { data, pending, refresh } = await useAsyncData("backpack_randomrods", () => backPackStore.loadRandomRods());
 
-const formatTitle = (rod: FishingRod) => {
+const formatLabel = (rod: FishingRod) => {
     return `品牌：${rod.brand}  型号：${rod.model}`
 }
 
@@ -54,8 +54,6 @@ const onListClick = (rod: FishingRod) => {
     showCustomForm.value = true
 }
 const onSubmit = async (values: RodParams) => {
-    console.log('submit', values);
-    // 这里可以添加向后端发送数据的代码
     const { backpack } = useApi()
     let res = await backpack.createRod({
         brand: values.brand,
@@ -80,15 +78,15 @@ const onSubmit = async (values: RodParams) => {
     <div>
         <van-search v-model="searchQuery" placeholder="搜索鱼竿品牌或者型号" @search="fetchRods" />
         <van-list>
-            <van-cell v-for="rod in searchResult" :key="rod.id" :title="rod.model" :label="formatTitle(rod)"
+            <van-cell v-for="rod in searchResult" :key="rod.id" :title="rod.model" :label="formatLabel(rod)"
                 @click="onListClick(rod)" value="选择" is-link />
         </van-list>
         <van-button class="mt-6" round block type="primary" @click="showCustomForm = true">自定义新的鱼竿</van-button>
 
         <van-divider>快捷选择</van-divider>
         <van-list>
-            <van-cell v-for="rod in getRandomRods" :key="rod.id" :title="rod.model" :label="formatTitle(rod)"
-                @click="onListClick(rod)" value="选择" is-link />
+            <van-cell v-for="rod in backPackStore.getRandomRods" :key="rod.id" :title="rod.model"
+                :label="formatLabel(rod)" @click="onListClick(rod)" value="选择" is-link />
         </van-list>
 
 
