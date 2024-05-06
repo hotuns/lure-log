@@ -126,28 +126,37 @@ model Record {
   fishRecords   FishRecord[]
 }
 
+// 钓点tags
+model FishingSpotTag {
+  id  Int    @id
+  tag String
+}
+
 // 钓点
 model FishingSpot {
-  id          Int      @id @default(autoincrement())
-  coordinates String
-  locationTag String
-  description String?
-  records     Record[]
+  id           Int      @id @default(autoincrement())
+  coordinates  String // "POINT(40.712776 -74.005974)"
+  locationTags String[]
+  description  String?
+  records      Record[]
 }
 
 // 渔获记录
 model FishRecord {
-  id      Int    @id
-  record  Record @relation(fields: [id], references: [id])
-  species String
-  length  Float
-  weight  Float
+  id        Int         @id
+  record    Record      @relation(fields: [recordId], references: [id])
+  recordId  Int // 添加这个字段以存储 Record 表的外键
+  speciesId Int // 添加外键字段指向 FishSpecies 表
+  species   FishSpecies @relation(fields: [speciesId], references: [id])
+  length    Float
+  weight    Float
 }
 
-// 所有鱼种
+// 鱼种
 model FishSpecies {
-  id          Int     @id @default(autoincrement())
-  speciesName String
+  id          Int          @id @default(autoincrement())
+  name        String
   description String?
   imageURL    String?
+  records     FishRecord[] // 添加这个字段以反向关联 FishRecord
 }
