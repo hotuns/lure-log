@@ -1,6 +1,7 @@
 import type {
   Action,
   Backpack,
+  Combo,
   FishingReel,
   FishingRod,
   PowerValue,
@@ -81,4 +82,27 @@ export async function searchReel(query: { keyword: string }) {
 }
 export async function updateReel(id: number, opt: ReelParams) {
   return useHttp.post<{}>(reelApi.update, { id, ...opt });
+}
+
+// 组合
+enum comboApi {
+  create = "/api/combo/create",
+  list = "/api/combo/list",
+  delete = "/api/combo/delete",
+}
+
+interface ComboParams {
+  name: string;
+  rodId: number;
+  reelId: number;
+}
+
+export async function createCombo(opt: ComboParams) {
+  return useHttp.post<{ combo: Combo }>(comboApi.create, opt);
+}
+export async function listCombo() {
+  return useHttp.get<{ combos: Combo[] }>(comboApi.list);
+}
+export async function deleteCombo(id: number) {
+  return useHttp.post<{}>(comboApi.delete, { id });
 }

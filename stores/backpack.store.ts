@@ -1,4 +1,4 @@
-import type { FishingReel, FishingRod } from "@prisma/client";
+import type { Combo, FishingReel, FishingRod } from "@prisma/client";
 import { defineStore } from "pinia";
 
 // 背包 store
@@ -9,8 +9,11 @@ function storeSetup() {
 
   const ownRods = ref<FishingRod[]>([]);
   const ownReel = ref<FishingReel[]>([]);
+  const combos = ref<Combo[]>([]);
+
   const getOwnRods = computed(() => ownRods.value);
   const getOwnReels = computed(() => ownReel.value);
+  const getCombos = computed(() => combos.value);
 
   const { backpack } = useApi();
 
@@ -51,14 +54,27 @@ function storeSetup() {
     }
   }
 
+  // 获取背包中的组合
+  async function loadBackPackCombos() {
+    const res = await backpack.listCombo();
+    if (res.success) {
+      combos.value = res.data.combos;
+      return Promise.resolve(res.data.combos);
+    } else {
+      return Promise.reject();
+    }
+  }
+
   return {
     getOwnRods,
     getOwnReels,
+    getCombos,
     loadBackPackItems,
     getRandomRods,
     getRandomReels,
     loadRandomReels,
     loadRandomRods,
+    loadBackPackCombos,
   };
 }
 export const useBackpackStore = defineStore("app-backpack", storeSetup, {

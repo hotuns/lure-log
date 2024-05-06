@@ -11,14 +11,14 @@ export default defineEventHandler(async (event) => {
   let reels;
   if (random) {
     reels = await prisma.fishingReel.findMany({
-      take: limit,
+      take: Number(limit),
       orderBy: {
         id: "desc",
       },
     });
   } else {
     reels = await prisma.fishingReel.findMany({
-      take: limit,
+      take: Number(limit),
     });
   }
   return Res({ reels });

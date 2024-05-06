@@ -20,7 +20,7 @@ onMounted(() => {
 const bpStore = useBackpackStore();
 
 const { data, pending, refresh } = await useAsyncData("backpack_items", () => bpStore.loadBackPackItems());
-
+const { data: combos } = await useAsyncData("backpack_combos", () => bpStore.loadBackPackCombos());
 
 const showAction = ref(false);
 const actions = [
@@ -49,26 +49,25 @@ const onSelect = (item: any) => {
 
 <template>
   <div>
+    <van-floating-bubble :offset="{ x: 24, y: 500 }" axis="xy" magnetic="x" icon="plus" @click="showAction = true" />
 
-    <div class="w-full flex">
-      <div class='w-full'>
-        <van-tabs v-model:active="activeTab" swipeable :before-change="beforeChange">
-          <van-tab title="物品" name="items">
-          </van-tab>
-          <van-tab title="组合" name="combos">
-          </van-tab>
-        </van-tabs>
-      </div>
+    <van-tabs v-model:active="activeTab" swipeable :before-change="beforeChange">
+      <van-tab title="物品" name="items">
+      </van-tab>
+      <van-tab title="组合" name="combos">
+      </van-tab>
+    </van-tabs>
 
 
-      <div>
-        <van-button icon="plus" type="primary" @click="showAction = true" />
-      </div>
+    <div v-if='activeTab === "items"'>
+      <!-- 物品 -->
+      <BackPackItems :fishingRods="bpStore.getOwnRods" :fishingReels="bpStore.getOwnReels" />
     </div>
 
-    <!-- 内容 -->
-    <BackPackItems :fishingRods="bpStore.getOwnRods" :fishingReels="bpStore.getOwnReels" />
-
+    <div v-if="activeTab === 'combos'">
+      <!-- 组合  -->
+      <BackPackCombos :combos="bpStore.getCombos" />
+    </div>
 
     <van-action-sheet v-model:show="showAction" description="你想要添加什么呢？" :actions="actions" @select="onSelect" />
 
