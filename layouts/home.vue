@@ -1,5 +1,5 @@
 <template>
-  <main class="py-20">
+  <main class="">
     <slot />
 
     <AppTabBar />

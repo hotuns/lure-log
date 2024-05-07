@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@unocss/reset": "^0.59.4",
+    "@vuemap/vue-amap": "^2.1.1",
     "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
