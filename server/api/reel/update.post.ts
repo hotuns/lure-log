@@ -4,7 +4,7 @@ import { Braking, ReelType } from "@prisma/client";
 export default defineEventHandler(async (event) => {
   const { id } = getAuth(event);
   const body = await readBody<{
-    id: number;
+    id: string;
     brand: string;
     model: string;
     type: ReelType;

@@ -1,7 +1,7 @@
 import type { H3Event, EventHandlerRequest } from "h3";
 
 interface Auth {
-  id: number;
+  id: string;
   username: string;
   phone: string;
 }

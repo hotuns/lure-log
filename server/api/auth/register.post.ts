@@ -42,25 +42,19 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // 创建背包backpack 和 用户user
-  await prisma.backpack.create({
+  // 用户user
+  const user = await prisma.user.create({
     data: {
-      user: {
-        create: {
-          phone,
-          password: hash(password),
-          username,
-          email,
-          avatar: "/avatar/default.png",
-        },
+      phone,
+      password: hash(password),
+      username,
+      email,
+      backpack: {
+        create: {},
       },
     },
   });
-  const user = await prisma.user.findUnique({
-    where: {
-      phone,
-    },
-  });
-  const { password: _password, ...userWithoutPassword } = user!;
+
+  const { password: _password, ...userWithoutPassword } = user;
   return Res({ user: userWithoutPassword });
 });

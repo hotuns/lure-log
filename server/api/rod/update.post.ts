@@ -4,7 +4,7 @@ import { Action, PowerValue } from "@prisma/client";
 export default defineEventHandler(async (event) => {
   const { id } = getAuth(event);
   const body = await readBody<{
-    id: number;
+    id: string;
     brand: string;
     model: string;
     length: number;
@@ -22,6 +22,7 @@ export default defineEventHandler(async (event) => {
     powerValue,
     action,
   } = body;
+
   const rod = await prisma.fishingRod.update({
     where: {
       id: rodId,

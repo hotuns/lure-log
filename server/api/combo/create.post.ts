@@ -3,8 +3,8 @@ export default defineEventHandler(async (event) => {
   const { id } = getAuth(event);
   const body = await readBody<{
     name: string;
-    rodId: number;
-    reelId: number;
+    rodId: string;
+    reelId: string;
   }>(event);
 
   const { rodId, reelId, name } = body;

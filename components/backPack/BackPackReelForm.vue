@@ -55,7 +55,16 @@ const brakingOptions: { text: string; value: Braking }[] = [
 ];
 
 const onSubmit = async (values: any) => {
-  emits("submit", unref(data));
+  let reqdata = {
+    ...data.value,
+    weight: Number(data.value.weight),
+    gearRatio: Number(data.value.gearRatio),
+    type: typeOptions.filter((x) => x.text === data.value.type)[0].value,
+    braking: brakingOptions.filter((x) => x.text === data.value.braking)[0]
+      .value,
+  };
+
+  emits("submit", reqdata);
 };
 
 const onTypeConfirm = (res: any) => {

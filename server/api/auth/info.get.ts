@@ -1,7 +1,7 @@
 // 获取用户信息
 export default defineEventHandler(async (event) => {
   const query = getQuery<{
-    id?: number;
+    id?: string;
     backpack?: boolean;
   }>(event);
 

@@ -9,9 +9,8 @@ import type {
 
 // 背包
 enum backpackApi {
-  items = "/api/backpack/items",
-  add = "/api/backpack/add",
-  delete = "/api/backpack/delete",
+  items = "/api/backpack/items/list",
+  delete = "/api/backpack/items/delete",
 }
 
 export async function getBackPackItems() {

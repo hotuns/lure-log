@@ -1,51 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-// 用户
-model User {
-  id       Int       @id @default(autoincrement())
-  username String    @unique
-  phone    String    @unique
-  email    String?   @unique
-  avatar   String?
-  password String
-  backpack Backpack?
-  combos   Combo[]
-  records  Record[]
-}
-
-// 背包
-model Backpack {
-  id           Int           @id @default(autoincrement())
-  userId       Int           @unique
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  fishingRods  FishingRod[]
-  fishingReels FishingReel[]
-}
-
-// 组合
-model Combo {
-  id            Int         @id @default(autoincrement())
-  name          String
-  userId        Int
-  user          User        @relation(fields: [userId], references: [id])
-  fishingRodId  Int
-  fishingRod    FishingRod  @relation(fields: [fishingRodId], references: [id])
-  fishingReelId Int
-  fishingReel   FishingReel @relation(fields: [fishingReelId], references: [id])
-  Record        Record[]
+generator client {
+  provider = "prisma-client-js"
 }
 
 enum PowerValue {
@@ -67,96 +26,121 @@ enum Action {
   Slow
 }
 
-// 鱼竿
+enum Braking {
+  NoBraking
+  SpoolTension
+  Centrifugal
+  Magnetic
+  Electronic
+}
+
+enum ReelType {
+  Spinning
+  Casting
+  Conventional
+}
+
+// 用户
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  username String    @unique
+  phone    String    @unique
+  email    String?   @unique
+  avatar   String?
+  password String
+  backpack Backpack?
+  combos   Combo[]
+  records  Record[]
+}
+
+// 背包
+model Backpack {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  fishingRods  FishingRod[]
+  fishingReels FishingReel[]
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @unique @db.ObjectId
+}
+
+// 钓竿
 model FishingRod {
-  id         Int        @id @default(autoincrement())
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
   brand      String
   model      String
   length     Float
   sections   Int
-  powerValue PowerValue @default(M)
-  action     Action     @default(Medium)
-  backpackId Int?
-  backpack   Backpack?  @relation(fields: [backpackId], references: [id])
-  combos     Combo[]
-}
-
-enum Braking {
-  NoBraking //无刹车
-  SpoolTension //机械刹车（线张力）
-  Centrifugal //离心刹车
-  Magnetic //磁力刹车
-  Electronic //电子刹车
-}
-
-enum ReelType {
-  Spinning //纺车轮
-  Casting // 水滴轮
-  Conventional // 鼓轮/传统轮
+  powerValue PowerValue
+  action     Action
+  backpack   Backpack   @relation(fields: [backpackId], references: [id])
+  backpackId String     @db.ObjectId
+  Combo      Combo[]
 }
 
 // 卷线器
 model FishingReel {
-  id         Int       @id @default(autoincrement())
-  type       ReelType  @default(Spinning)
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  type       ReelType
   brand      String
   model      String
   weight     Float
   gearRatio  Float
-  braking    Braking   @default(SpoolTension)
-  backpackId Int?
-  backpack   Backpack? @relation(fields: [backpackId], references: [id])
-  combos     Combo[]
+  braking    Braking
+  backpack   Backpack @relation(fields: [backpackId], references: [id])
+  backpackId String   @db.ObjectId
+  Combo      Combo[]
 }
 
-// 记录
+// 组合
+model Combo {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  fishingRodId  String      @db.ObjectId
+  fishingRod    FishingRod  @relation(fields: [fishingRodId], references: [id])
+  fishingReelId String      @db.ObjectId
+  fishingReel   FishingReel @relation(fields: [fishingReelId], references: [id])
+  records       Record[]
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String      @db.ObjectId
+}
+
+// 钓鱼记录
 model Record {
-  id            Int          @id @default(autoincrement())
-  userId        Int
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  time          DateTime     @default(now())
   user          User         @relation(fields: [userId], references: [id])
-  time          DateTime
-  comboId       Int?
-  combo         Combo?       @relation(fields: [comboId], references: [id])
-  rain          String
-  pressure      Float
-  windSpeed     Float
-  windDirection String
-  fishingSpotId Int
-  fishingSpot   FishingSpot  @relation(fields: [fishingSpotId], references: [id])
-  fishRecords   FishRecord[]
-}
-
-// 钓点tags
-model FishingSpotTag {
-  id  Int    @id
-  tag String
+  userId        String       @db.ObjectId
+  fishingSpot   FishingSpot? @relation(fields: [fishingSpotId], references: [id])
+  fishingSpotId String?      @db.ObjectId
+  Combo         Combo        @relation(fields: [comboId], references: [id])
+  comboId       String       @db.ObjectId
+  FishCatch     FishCatch    @relation(fields: [fishCatchId], references: [id])
+  fishCatchId   String       @unique @db.ObjectId
 }
 
 // 钓点
 model FishingSpot {
-  id           Int      @id @default(autoincrement())
-  coordinates  String // "POINT(40.712776 -74.005974)"
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  coordinates  String
   locationTags String[]
   description  String?
   records      Record[]
 }
 
-// 渔获记录
-model FishRecord {
-  id        Int         @id
-  record    Record      @relation(fields: [recordId], references: [id])
-  recordId  Int // 添加这个字段以存储 Record 表的外键
-  speciesId Int // 添加外键字段指向 FishSpecies 表
-  species   FishSpecies @relation(fields: [speciesId], references: [id])
+// 鱼获
+model FishCatch {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  speciesId String?      @db.ObjectId
+  species   FishSpecies? @relation(fields: [speciesId], references: [id])
   length    Float
   weight    Float
+  Record    Record?
 }
 
 // 鱼种
 model FishSpecies {
-  id          Int          @id @default(autoincrement())
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String?
   imageURL    String?
-  records     FishRecord[] // 添加这个字段以反向关联 FishRecord
+  FishCatch   FishCatch[]
 }

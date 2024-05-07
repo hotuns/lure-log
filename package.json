@@ -7,8 +7,8 @@
     "dev": "nuxt dev -p 3111",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "db": "prisma migrate dev --name init"
+    "postinstall": "nuxt prepare &&  prisma generate",
+    "db": "prisma generate &&  prisma db push"
   },
   "dependencies": {
     "@unocss/reset": "^0.59.4",
