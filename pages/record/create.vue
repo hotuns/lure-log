@@ -1,12 +1,11 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "home",
-  name: "home",
+  title: "创建记录",
 });
-
-navigateTo("/map");
 </script>
 
 <template>
-  <div>home</div>
+  <div>创建记录</div>
 </template>
+
+<style scoped></style>

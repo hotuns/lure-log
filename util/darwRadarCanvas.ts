@@ -7,8 +7,9 @@ export interface Radar {
   stopScan(): void;
 }
 
-export function initRadarCanvas(canvas: HTMLCanvasElement): Radar | null {
+export function initRadarCanvas(canvasID: HTMLCanvasElement): Radar | null {
   let animID: number | null = null;
+  const canvas = canvasID;
 
   if (!canvas) {
     console.log(`[error] cannot find canvas element`);

@@ -4,10 +4,10 @@ const active = ref("home");
 
 <template>
   <van-tabbar v-model="active" route>
-    <van-tabbar-item replace to="/history">
-      <span>记录</span>
+    <van-tabbar-item replace to="/map">
+      <span>地图</span>
       <template #icon>
-        <div class="i-noto-v1-calendar" />
+        <div class="i-noto-v1-sunrise" />
       </template>
     </van-tabbar-item>
 
@@ -18,8 +18,8 @@ const active = ref("home");
       </template>
     </van-tabbar-item>
 
-    <van-tabbar-item>
-      <span>出击</span>
+    <van-tabbar-item replace to="/record/create">
+      <span>上鱼了</span>
       <template #icon>
         <div class="i-noto-v1-fishing-pole" />
       </template>

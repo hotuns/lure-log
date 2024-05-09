@@ -2,6 +2,7 @@
 
 export default defineNuxtConfig({
   ssr: true,
+
   devtools: { enabled: true },
   modules: [
     "@vant/nuxt",
@@ -11,13 +12,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
   ],
 
-  css: ["@unocss/reset/tailwind.css", "@vuemap/vue-amap/dist/style.css"],
-
-  vite: {
-    optimizeDeps: {
-      exclude: ["@vuemap/vue-amap"],
-    },
-  },
+  css: ["@unocss/reset/tailwind.css"],
 
   postcss: {
     plugins: {

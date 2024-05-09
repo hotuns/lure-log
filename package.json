@@ -11,8 +11,7 @@
     "db": "prisma generate &&  prisma db push"
   },
   "dependencies": {
-    "@unocss/reset": "^0.59.4",
-    "@vuemap/vue-amap": "^2.1.1",
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
@@ -25,6 +24,8 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@unocss/reset": "^0.59.4",
+    "@amap/amap-jsapi-types": "^0.0.15",
     "@iconify-json/carbon": "^1.1.31",
     "@iconify-json/noto-v1": "^1.1.11",
     "@nuxtjs/color-mode": "^3.4.0",

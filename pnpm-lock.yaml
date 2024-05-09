@@ -5,12 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@unocss/reset':
-    specifier: ^0.59.4
-    version: 0.59.4
-  '@vuemap/vue-amap':
-    specifier: ^2.1.1
-    version: 2.1.1(vue@3.4.25)
+  '@amap/amap-jsapi-loader':
+    specifier: ^1.0.1
+    version: 1.0.1
   joi:
     specifier: ^17.13.0
     version: 17.13.0
@@ -43,6 +40,9 @@ dependencies:
     version: 4.3.2(vue@3.4.25)
 
 devDependencies:
+  '@amap/amap-jsapi-types':
+    specifier: ^0.0.15
+    version: 0.0.15
   '@iconify-json/carbon':
     specifier: ^1.1.31
     version: 1.1.31
@@ -73,6 +73,9 @@ devDependencies:
   '@unocss/preset-rem-to-px':
     specifier: ^0.59.4
     version: 0.59.4
+  '@unocss/reset':
+    specifier: ^0.59.4
+    version: 0.59.4
   '@vant/nuxt':
     specifier: ^1.0.4
     version: 1.0.4(vant@4.8.11)
@@ -81,6 +84,14 @@ devDependencies:
     version: 4.1.2(postcss@8.4.38)
 
 packages:
+
+  /@amap/amap-jsapi-loader@1.0.1:
+    resolution: {integrity: sha512-nPyLKt7Ow/ThHLkSvn2etQlUzqxmTVgK7bIgwdBRTg2HK5668oN7xVxkaiRe3YZEzGzfV2XgH5Jmu2T73ljejw==}
+    dev: false
+
+  /@amap/amap-jsapi-types@0.0.15:
+    resolution: {integrity: sha512-oqyRqHpVDZh5bUe2mAJh41ZsziSj0eUzwcfIbiaBNB0eiTJnZNhKsTdk77VOklOjwuwNfsblpKW9LjmWNpeQ7A==}
+    dev: true
 
   /@ampproject/remapping@2.3.0:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -393,13 +404,6 @@ packages:
       '@babel/plugin-syntax-jsx': 7.24.1(@babel/core@7.24.4)
       '@babel/plugin-transform-modules-commonjs': 7.24.1(@babel/core@7.24.4)
       '@babel/plugin-transform-typescript': 7.24.4(@babel/core@7.24.4)
-
-  /@babel/runtime@7.24.5:
-    resolution: {integrity: sha512-Nms86NXrsaeU9vbBJKni6gXiEXZ4CVpYVzEjDH9Sb8vmZ3UljyA1GSOJl/6LGPO8EHLuSF9H+IxNXHPX8QHJ4g==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.14.1
-    dev: false
 
   /@babel/standalone@7.24.4:
     resolution: {integrity: sha512-V4uqWeedadiuiCx5P5OHYJZ1PehdMpcBccNCEptKFGPiZIY3FI5f2ClxUl4r5wZ5U+ohcQ+4KW6jX2K6xXzq4Q==}
@@ -763,18 +767,6 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
-    dev: false
-
-  /@math.gl/core@3.6.3:
-    resolution: {integrity: sha512-jBABmDkj5uuuE0dTDmwwss7Cup5ZwQ6Qb7h1pgvtkEutTrhkcv8SuItQNXmF45494yIHeoGue08NlyeY6wxq2A==}
-    dependencies:
-      '@babel/runtime': 7.24.5
-      '@math.gl/types': 3.6.3
-      gl-matrix: 3.4.3
-    dev: false
-
-  /@math.gl/types@3.6.3:
-    resolution: {integrity: sha512-3uWLVXHY3jQxsXCr/UCNPSc2BG0hNUljhmOBt9l+lNFDp7zHgm0cK2Tw4kj2XfkJy4TgwZTBGwRDQgWEbLbdTA==}
     dev: false
 
   /@netlify/functions@2.6.0:
@@ -1710,24 +1702,6 @@ packages:
       minimatch: 9.0.4
     dev: false
 
-  /@turf/helpers@6.5.0:
-    resolution: {integrity: sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==}
-    dev: false
-
-  /@turf/intersect@6.5.0:
-    resolution: {integrity: sha512-2legGJeKrfFkzntcd4GouPugoqPUjexPZnOvfez+3SfIMrHvulw8qV8u7pfVyn2Yqs53yoVCEjS5sEpvQ5YRQg==}
-    dependencies:
-      '@turf/helpers': 6.5.0
-      '@turf/invariant': 6.5.0
-      polygon-clipping: 0.15.7
-    dev: false
-
-  /@turf/invariant@6.5.0:
-    resolution: {integrity: sha512-Wv8PRNCtPD31UVbdJE/KVAWKe7l6US+lJItRR/HOEW3eh+U/JwRCSUl/KZ7bmjM/C+zLNoreM2TU6OoLACs4eg==}
-    dependencies:
-      '@turf/helpers': 6.5.0
-    dev: false
-
   /@types/eslint-scope@3.7.7:
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
     dependencies:
@@ -2353,50 +2327,6 @@ packages:
 
   /@vue/shared@3.4.25:
     resolution: {integrity: sha512-k0yappJ77g2+KNrIaF0FFnzwLvUBLUYr8VOwz+/6vLsmItFp51AcxLL7Ey3iPd7BIRyWPOcqUjMnm7OkahXllA==}
-
-  /@vuemap/amap-jsapi-loader@1.0.4:
-    resolution: {integrity: sha512-s5fFHrsNkjYMovEmUJ5S23jpDtElTanDN2HdCt/amOD245a8wWVcTPjl06YEHXtxf6Ewm+z29wQByOCn209Hxg==}
-    dev: false
-
-  /@vuemap/amap-jsapi-types@0.0.16:
-    resolution: {integrity: sha512-1B1H2IS8sT2RDubbpEY+K8j11Gb7PZY5Bo0cszRkF8Nw+9HNqpbUNeqkQ6+rxLkwIedcSkOsFDy/IyzXCUXqVw==}
-    dev: false
-
-  /@vuemap/amap-jsapi-types@0.0.17:
-    resolution: {integrity: sha512-FHI8OMWxJWbgyuQ0tKclvurQIVHRexMIYAOwZ/z9+G7aHHK5EFhKM13siLczNNAgXdJ2dctPEghCdlhcByl3Ag==}
-    dev: false
-
-  /@vuemap/amap-xyz-layer@0.0.10:
-    resolution: {integrity: sha512-NHAGN57EFn2Xpktwx6+fqlVHmu8MvG4gl9fQJT2LepAJSmgFG+o+YtOoJFXwdT8BOg8W5evJNE+CZC0833zZpA==}
-    engines: {node: '>= 16'}
-    dependencies:
-      '@math.gl/core': 3.6.3
-      earcut: 2.2.4
-      gl-matrix: 3.4.3
-    dev: false
-
-  /@vuemap/district-cluster@0.0.11:
-    resolution: {integrity: sha512-SY01gFe8uhP5FKjzyTe0x2yL2K5VmwD5UKlEUU4e09UUZphXCj2Ci7iunX0L29nWINkBjdfxu8dXzhIcx9T3ug==}
-    engines: {node: '>= 16'}
-    dependencies:
-      '@turf/helpers': 6.5.0
-      '@turf/intersect': 6.5.0
-      '@vuemap/amap-jsapi-types': 0.0.16
-      topojson-client: 3.1.0
-    dev: false
-
-  /@vuemap/vue-amap@2.1.1(vue@3.4.25):
-    resolution: {integrity: sha512-340nZxN7jgl9ff1phBnVPoPumzZPA03S6bf3KPhn1ybschw7gm2RNX+h0kFC+sOmFxyjRJULh2g1a2tdiQtHsA==}
-    peerDependencies:
-      vue: '3'
-    dependencies:
-      '@vuemap/amap-jsapi-loader': 1.0.4
-      '@vuemap/amap-jsapi-types': 0.0.17
-      '@vuemap/amap-xyz-layer': 0.0.10
-      '@vuemap/district-cluster': 0.0.11
-      lodash-es: 4.17.21
-      vue: 3.4.25
-    dev: false
 
   /@vueuse/components@10.9.0(vue@3.4.25):
     resolution: {integrity: sha512-BHQpA0yIi3y7zKa1gYD0FUzLLkcRTqVhP8smnvsCK6GFpd94Nziq1XVPD7YpFeho0k5BzbBiNZF7V/DpkJ967A==}
@@ -3445,10 +3375,6 @@ packages:
   /duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
 
-  /earcut@2.2.4:
-    resolution: {integrity: sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==}
-    dev: false
-
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: false
@@ -3844,10 +3770,6 @@ packages:
     resolution: {integrity: sha512-NnLweV+2A4nCvn4U/m2AoYu0pPKlsmhK9cknG7IMwsjFY1S2jxM+mAhsDxyxfCIGfGaD+dozsyX4b6vkYc83yQ==}
     dependencies:
       git-up: 7.0.0
-    dev: false
-
-  /gl-matrix@3.4.3:
-    resolution: {integrity: sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==}
     dev: false
 
   /glob-parent@5.1.2:
@@ -5451,13 +5373,6 @@ packages:
       mlly: 1.6.1
       pathe: 1.1.2
 
-  /polygon-clipping@0.15.7:
-    resolution: {integrity: sha512-nhfdr83ECBg6xtqOAJab1tbksbBAOMUltN60bU+llHVOL0e5Onm1WpAXXWXVB39L8AJFssoIhEVuy/S90MmotA==}
-    dependencies:
-      robust-predicates: 3.0.2
-      splaytree: 3.1.2
-    dev: false
-
   /postcss-calc@9.0.1(postcss@8.4.38):
     resolution: {integrity: sha512-TipgjGyzP5QzEhsOZUaIkeO5mKeMFpebWzRogWG/ysonUlnHcq5aJe0jOjpfzUU8PeSaBQnrE8ehR0QA5vs8PQ==}
     engines: {node: ^14 || ^16 || >=18.0}
@@ -5916,10 +5831,6 @@ packages:
       redis-errors: 1.2.0
     dev: false
 
-  /regenerator-runtime@0.14.1:
-    resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==}
-    dev: false
-
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -5957,10 +5868,6 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
-    dev: false
-
-  /robust-predicates@3.0.2:
-    resolution: {integrity: sha512-IXgzBWvWQwE6PrDI05OvmXUIruQTcoMDzRsOd5CDvHCVLcLHMTSYvOK5Cm46kWqlV3yAbuSpBZdJ5oP5OUoStg==}
     dev: false
 
   /rollup-plugin-visualizer@5.12.0(rollup@4.16.4):
@@ -6248,10 +6155,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /splaytree@3.1.2:
-    resolution: {integrity: sha512-4OM2BJgC5UzrhVnnJA4BkHKGtjXNzzUfpQjCO8I05xYPsfS/VuQDwjCGGMi8rYQilHEV4j8NBqTFbls/PZEE7A==}
-    dev: false
-
   /splitpanes@3.1.5:
     resolution: {integrity: sha512-r3Mq2ITFQ5a2VXLOy4/Sb2Ptp7OfEO8YIbhVJqJXoFc9hc5nTXXkCvtVDjIGbvC0vdE7tse+xTM9BMjsszP6bw==}
     dev: false
@@ -6491,13 +6394,6 @@ packages:
   /toidentifier@1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
-    dev: false
-
-  /topojson-client@3.1.0:
-    resolution: {integrity: sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==}
-    hasBin: true
-    dependencies:
-      commander: 2.20.3
     dev: false
 
   /totalist@3.0.1:

@@ -45,6 +45,11 @@ const mode = computed(() => color.value as ConfigProviderTheme);
   padding: 0;
 }
 
+.van-config-provider {
+  height: 100%;
+  width: 100%;
+}
+
 html {
   background: var(--van-gray-1);
   color-scheme: light;

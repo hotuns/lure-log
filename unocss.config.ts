@@ -13,7 +13,10 @@ import presetRemToPx from "@unocss/preset-rem-to-px";
 import { readFile } from "node:fs/promises";
 
 export default defineConfig({
-  shortcuts: [],
+  shortcuts: {
+    // 绝对定位，水平居中
+    "abs-center-x": "absolute left-1/2 -translate-x-1/2",
+  },
   preflights: [
     {
       getCSS: () =>

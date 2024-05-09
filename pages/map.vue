@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import "@vuemap/vue-amap/dist/style.css";
-import { initMapApi } from "~/util/mapLoadUtil";
-import {
-  ElAmap,
-  ElAmapLayerCanvas,
-  useCitySearch,
-  lazyAMapApiLoaderInstance,
-} from "@vuemap/vue-amap";
+import "@amap/amap-jsapi-types";
 import { initRadarCanvas, type Radar } from "~/util/darwRadarCanvas";
 
 definePageMeta({
@@ -14,84 +7,76 @@ definePageMeta({
   layout: "home",
 });
 
-onBeforeMount(() => {
-  initMapApi();
-
-  //   获取城市
-  lazyAMapApiLoaderInstance.then(() => {
-    useCitySearch().then((res) => {
-      const { getLocalCity } = res;
-      getLocalCity().then((cityResult) => {
-        radarBounds.value = cityResult.bounds;
-        radar?.scan();
-
-        center.value = cityResult.bounds.getCenter().toArray();
-        console.log("cityResult: ", cityResult);
-      });
-    });
-  });
+// 地图实例
+const map = shallowRef<AMap.Map>();
+const amapId = computed(() => {
+  return `amap_${Date.now()}`;
 });
-
-const mapRef = ref();
-const zoom = ref(16);
-const center = ref([116.33719, 39.942384]);
-let map: any = null;
-
-const click = () => {
-  console.log("setup $refs: ", mapRef.value.$$getInstance());
-};
-
-const init = (o: any) => {
-  map = o;
-  console.log("setup init $refs: ", mapRef.value.$$getInstance());
-
-  map.plugin("AMap.Geolocation", () => {
-    const toolBar = new AMap.Geolocation();
-    map.addControl(toolBar);
+// 初始化
+const initMap = async () => {
+  await nextTick();
+  // 地图初始化
+  map.value = new AMap.Map(amapId.value, {
+    zoom: 14,
+    center: [108.366407, 22.8177], // 中心点
+    mapStyle: "amap://styles/fresh",
   });
 
-  createCanvs();
+  createRadar();
 };
 
-const radarVisible = ref(true);
-const radarCanvas = ref<HTMLCanvasElement>();
-let radar: Radar | null = null;
-const radarBounds = ref([116.327911, 39.939229, 116.342659, 39.946275]);
+var radarLayer = shallowRef<AMap.CustomLayer>();
+const createRadar = () => {
+  var canvas = document.createElement("canvas");
 
-const switchVisible = () => {
-  radarVisible.value = !radarVisible.value;
+  // 确保地图尺寸已经就绪
+  map.value?.on("complete", () => {
+    if (!map.value) return;
+
+    canvas.width = map.value.getSize().width;
+    canvas.height = map.value.getSize().height;
+
+    radarLayer.value = new AMap.CustomLayer(canvas, {
+      zooms: [2, 18],
+      zIndex: 120,
+      render: () => {
+        initRadarCanvas(canvas)?.scan();
+      },
+    });
+
+    radarLayer.value.setMap(map.value);
+  });
 };
 
-function createCanvs() {
-  radarCanvas.value = document.createElement("canvas");
-  radarCanvas.value.width = radarCanvas.value.height = 500;
-}
-const initLayer = (layer: any) => {
-  if (!radarCanvas.value) return;
-  radar = initRadarCanvas(radarCanvas.value);
-};
+// 挂载
+onMounted(() => {
+  if (process.client) {
+    initMap();
+  }
+});
+// 卸载
+onUnmounted(() => {
+  map.value?.destroy();
+});
 </script>
 
 <template>
   <div class="map-page-container">
-    <div class="w-full h-full">
+    <div class="w-full h-full relative">
       <ClientOnly>
-        <el-amap
-          ref="mapRef"
-          :center="center"
-          :zoom="zoom"
-          @init="init"
-          @click="click"
-        >
-          <el-amap-layer-canvas
-            v-if="radarCanvas"
-            :canvas="radarCanvas"
-            :bounds="radarBounds"
-            :radarVisible="radarVisible"
-            @init="initLayer"
-          />
-        </el-amap>
+        <div :id="amapId" class="h-full w-full"></div>
       </ClientOnly>
+
+      <van-button
+        class="map-tool abs-center-x bottom-40"
+        loading
+        type="success"
+        loading-text="加载中..."
+      >
+        搜索这里</van-button
+      >
+
+      <MapFloatingPanel />
     </div>
   </div>
 </template>
@@ -101,7 +86,11 @@ const initLayer = (layer: any) => {
   padding: 0px;
   margin: 0px;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: 100%;
+}
+.map-tool {
+  position: absolute;
+  z-index: 100;
 }
 
 :deep(.amap-logo) {
