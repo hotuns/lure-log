@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { FishCatch } from "@prisma/client";
-
 definePageMeta({
   title: "创建记录",
 });
@@ -62,7 +60,9 @@ const fishCatchData = ref<{
     <van-cell-group>
       <van-cell title="钓点" />
       <div class="w-full h-4xl p-xl">
-        <MapMini />
+        <ClientOnly>
+          <MapLeaflet />
+        </ClientOnly>
       </div>
 
       <van-field label="是否公开钓点">

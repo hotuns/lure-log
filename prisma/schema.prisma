@@ -105,25 +105,39 @@ model Combo {
 
 // 钓鱼记录
 model Record {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  time          DateTime     @default(now())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  time        DateTime @default(now())
+  description String?
+
   user          User         @relation(fields: [userId], references: [id])
   userId        String       @db.ObjectId
   fishingSpot   FishingSpot? @relation(fields: [fishingSpotId], references: [id])
   fishingSpotId String?      @db.ObjectId
   Combo         Combo        @relation(fields: [comboId], references: [id])
   comboId       String       @db.ObjectId
-  FishCatch     FishCatch    @relation(fields: [fishCatchId], references: [id])
+  fishCatch     FishCatch    @relation(fields: [fishCatchId], references: [id])
   fishCatchId   String       @unique @db.ObjectId
 }
 
 // 钓点
 model FishingSpot {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  coordinates  String
-  locationTags String[]
-  description  String?
-  records      Record[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  polygon     Json // 存储GeoJSON,多边形数据
+  center      Json // 存储GeoJSON,中心点数据
+  description String?
+  records     Record[]
+  tagIds      String[] @db.ObjectId
+  tags        Tag[]    @relation(fields: [tagIds], references: [id])
+}
+
+// 标签
+model Tag {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique
+  description String?
+
+  fishingSpotIds String[]      @db.ObjectId
+  fishingSpots   FishingSpot[] @relation(fields: [fishingSpotIds], references: [id])
 }
 
 // 鱼获
@@ -142,5 +156,5 @@ model FishSpecies {
   name        String
   description String?
   imageURL    String?
-  FishCatch   FishCatch[]
+  fishCatch   FishCatch[]
 }

@@ -2,6 +2,19 @@
 
 export default defineNuxtConfig({
   ssr: true,
+  spaLoadingTemplate: "./spa-loading-template.html",
+
+  routeRules: {
+    "/": { prerender: true },
+    "/auth/**": { ssr: true },
+    "/user": { ssr: true },
+    "backpack/**": { ssr: false },
+    "map/**": { ssr: false },
+    "fishingspot/**": { ssr: false },
+    "record/**": { ssr: false },
+    "history/**": { ssr: false },
+    "profile/**": { ssr: false },
+  },
 
   devtools: { enabled: true },
   modules: [
