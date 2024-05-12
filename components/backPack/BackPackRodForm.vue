@@ -91,13 +91,13 @@ const onSubmit = async (values: any) => {
 
 const onPowerValueConfirm = (res: any) => {
   let opt = res.selectedOptions[0];
-  data.value.powerValue = opt.value;
+  data.value.powerValue = opt.text;
   showPowerValuePicker.value = false;
 };
 
 const onActionConfirm = (res: any) => {
   let opt = res.selectedOptions[0];
-  data.value.action = opt.value;
+  data.value.action = opt.text;
   showActionPicker.value = false;
 };
 </script>

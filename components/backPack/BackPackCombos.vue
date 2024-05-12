@@ -7,10 +7,6 @@ const props = defineProps<{
 
 const { combos } = toRefs(props);
 
-function formatLabel(combo: any) {
-  return `鱼竿：${combo.fishingRod.brand}  卷线器：${combo.fishingReel.brand}`;
-}
-
 function toCreateCombo() {
   navigateTo({ name: "backpack-createCombo" });
 }
@@ -34,10 +30,21 @@ function toCreateCombo() {
         v-for="combo in combos"
         :key="combo.id"
         :title="combo.name"
-        :label="formatLabel(combo)"
         value="详情🔎"
         is-link
-      />
+      >
+        <template #label>
+          <!-- @ts-ignore -->
+          <p>
+            {{ `鱼竿：${combo.fishingRod.brand}-${combo.fishingRod.model}` }}
+          </p>
+          <p>
+            {{
+              `卷线器：${combo.fishingReel.brand}-${combo.fishingReel.model}`
+            }}
+          </p>
+        </template>
+      </van-cell>
     </van-cell-group>
   </div>
 </template>

@@ -18,7 +18,7 @@ const active = ref("home");
       </template>
     </van-tabbar-item>
 
-    <van-tabbar-item replace to="/record/create">
+    <van-tabbar-item to="/record/create">
       <span>上鱼了</span>
       <template #icon>
         <div class="i-noto-v1-fishing-pole" />
