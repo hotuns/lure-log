@@ -1,39 +1,10 @@
-version: "3.8"
-
 services:
-  mongodb-primary:
-    image: mongo:latest
-    container_name: mongodb-primary
+  mongodb_container:
+    # This image automatically creates a replica set required for transactions
+    image: prismagraphql/mongo-single-replica:4.4.3-bionic
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: prisma
+      INIT_WAIT_SEC: 3
     ports:
-      - "27017:27017"
-    command: mongod --replSet rs0
-    # volumes:
-    #   - ./data/mongodb-primary:/data/db
-    networks:
-      - my-network
-
-  mongodb-secondary:
-    image: mongo:latest
-    container_name: mongodb-secondary
-    depends_on:
-      - mongodb-primary
-    command: mongod --replSet rs0
-    # volumes:
-    #   - ./data/mongodb-secondary:/data/db
-    networks:
-      - my-network
-
-  mongodb-arbiter:
-    image: mongo:latest
-    container_name: mongodb-arbiter
-    depends_on:
-      - mongodb-primary
-    command: mongod --replSet rs0 --oplogSize 128
-    # volumes:
-    #   - ./data/mongodb-arbiter:/data/db
-    networks:
-      - my-network
-
-networks:
-  my-network:
-    driver: bridge
+      - 27017:27017
