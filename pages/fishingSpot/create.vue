@@ -1,52 +1,65 @@
 <script setup lang="ts">
+import type { TagModel } from "~/apis/tag";
+
 definePageMeta({
   title: "创建钓点",
 });
 
-const stepActive = ref(0);
+const spotName = ref("");
+const spotDescription = ref("");
+const spotTags = ref<TagModel[]>([]);
 
-const nextStep = () => {
-  stepActive.value += 1;
-};
-const pervStep = () => {
-  stepActive.value -= 1;
-};
+const { fetchTags, tags } = useTagStore();
+await useAsyncData("tags", fetchTags);
 
-const onChange = (index: number) => {
-  console.log(index);
-};
+const showTags = ref(false);
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col">
-    <van-steps :active="stepActive">
-      <van-step>地图选点</van-step>
-      <van-step>补充信息</van-step>
-      <van-step>创建完成</van-step>
-    </van-steps>
+  <div class="space-y-6xl pt-10">
+    <van-cell-group>
+      <van-field
+        v-model="spotName"
+        name="spotName"
+        label="钓点名称"
+        placeholder="为钓点取个名字吧"
+        :rules="[{ required: true, message: '取个名字方便记忆' }]"
+      />
+      <van-field
+        v-model="spotDescription"
+        name="spotDescription"
+        label="描述信息"
+        placeholder="随便写点什么吧"
+        :rules="[{ required: true, message: '' }]"
+      />
 
-    <div class="h-full">
-      <van-swipe
-        style="height: 100%"
-        :touchable="false"
-        :show-indicators="false"
-        :loop="false"
-        @change="onChange"
-      >
-        <van-swipe-item>
-          <client-only>
-            <MapDraw />
-          </client-only>
-        </van-swipe-item>
-        <van-swipe-item>2</van-swipe-item>
-        <van-swipe-item>3</van-swipe-item>
-      </van-swipe>
-    </div>
+      <van-cell title="标签" is-link @click="showTags = true">
+        <template #right-icon>
+          <van-tag v-for="tag in spotTags" :key="tag.id">
+            {{ tag.name }}
+          </van-tag>
+        </template>
+      </van-cell>
 
-    <div class="flex justify-center space-x-8xl">
-      <van-button block @click="pervStep">上一步</van-button>
-      <van-button block type="primary" @click="nextStep">下一步</van-button>
-    </div>
+      <van-popup v-model:show="showTags" >
+        <!-- 选择标签或者新建 -->
+        <div>
+          <template v-for="tag in tags" :key="tag.id">
+            
+            <van-tag plain type="primary">标签</van-tag>
+          </template>
+        </div>
+      </van-popup>
+    </van-cell-group>
+
+    <van-cell-group>
+      <van-cell title="范围选择" />
+      <div class="w-full h-4xl p-xl">
+        <ClientOnly>
+          <MapLeaflet />
+        </ClientOnly>
+      </div>
+    </van-cell-group>
   </div>
 </template>
 
