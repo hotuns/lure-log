@@ -42,15 +42,16 @@ enum ReelType {
 
 // 用户
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  username String    @unique
-  phone    String    @unique
-  email    String?   @unique
-  avatar   String?
-  password String
-  backpack Backpack?
-  combos   Combo[]
-  records  Record[]
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  username     String     @unique
+  phone        String     @unique
+  email        String?    @unique
+  avatar       String?
+  password     String
+  backpack     Backpack?
+  combos       Combo[]
+  records      Record[]
+  fishingSpots FishSpot[]
 }
 
 // 背包
@@ -109,18 +110,18 @@ model Record {
   time        DateTime @default(now())
   description String?
 
-  user          User         @relation(fields: [userId], references: [id])
-  userId        String       @db.ObjectId
-  fishingSpot   FishingSpot? @relation(fields: [fishingSpotId], references: [id])
-  fishingSpotId String?      @db.ObjectId
-  Combo         Combo        @relation(fields: [comboId], references: [id])
-  comboId       String       @db.ObjectId
-  fishCatch     FishCatch    @relation(fields: [fishCatchId], references: [id])
-  fishCatchId   String       @unique @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String    @db.ObjectId
+  fishspot      FishSpot? @relation(fields: [fishingSpotId], references: [id])
+  fishingSpotId String?   @db.ObjectId
+  Combo         Combo     @relation(fields: [comboId], references: [id])
+  comboId       String    @db.ObjectId
+  fishCatch     FishCatch @relation(fields: [fishCatchId], references: [id])
+  fishCatchId   String    @unique @db.ObjectId
 }
 
 // 钓点
-model FishingSpot {
+model FishSpot {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   polygon     Json // 存储GeoJSON,多边形数据
   center      Json // 存储GeoJSON,中心点数据
@@ -128,6 +129,8 @@ model FishingSpot {
   records     Record[]
   tagIds      String[] @db.ObjectId
   tags        Tag[]    @relation(fields: [tagIds], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @db.ObjectId
 }
 
 // 标签
@@ -136,8 +139,8 @@ model Tag {
   name        String  @unique
   description String?
 
-  fishingSpotIds String[]      @db.ObjectId
-  fishingSpots   FishingSpot[] @relation(fields: [fishingSpotIds], references: [id])
+  fishingSpotIds String[]   @db.ObjectId
+  fishingSpots   FishSpot[] @relation(fields: [fishingSpotIds], references: [id])
 }
 
 // 鱼获
@@ -155,6 +158,6 @@ model FishSpecies {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String?
-  imageURL    String?
+  image       String?
   fishCatch   FishCatch[]
 }

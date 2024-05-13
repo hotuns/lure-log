@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     "/user": { ssr: true },
     "backpack/**": { ssr: false },
     "map/**": { ssr: false },
-    "fishingspot/**": { ssr: false },
+    "fishspot/**": { ssr: false },
     "record/**": { ssr: false },
     "history/**": { ssr: false },
     "profile/**": { ssr: false },

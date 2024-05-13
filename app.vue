@@ -59,4 +59,8 @@ html.dark {
   background: #222;
   color-scheme: dark;
 }
+
+.leaflet-control-container .leaflet-control-attribution.leaflet-control {
+  display: none !important;
+}
 </style>

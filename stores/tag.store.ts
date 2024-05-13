@@ -4,7 +4,6 @@ import { useApi } from "~/composables/useApi";
 
 function storeSetup() {
   const tags = ref<TagModel[]>([]);
-  const getTags = computed(() => tags.value);
   const setTags = (data: TagModel[]) => {
     tags.value = data;
   };
@@ -16,10 +15,18 @@ function storeSetup() {
     }
   };
 
+  const addTag = async (data: { name: string; description?: string }) => {
+    const { tag } = useApi();
+    const res = await tag.createTag(data);
+    if (res.success) {
+      fetchTags();
+    }
+  };
+
   return {
     tags,
-    getTags,
     setTags,
+    addTag,
     fetchTags,
   };
 }

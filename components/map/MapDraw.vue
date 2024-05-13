@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet-draw";
 
+const emits = defineEmits(["edited"]);
 const map = ref<L.Map>();
 const drawControl = ref<L.Control.Draw>();
 const editableLayers = new L.FeatureGroup();
@@ -56,9 +57,28 @@ const addDrawControl = () => {
 
   map.value.on(L.Draw.Event.EDITED, (e: any) => {
     var layers = e.layers;
+
     layers.eachLayer((LayerGroup: any) => {
       //获取中心点
       center.value = LayerGroup.getCenter();
+    });
+
+    let centerGeojson = {
+      type: "Point",
+      coordinates: [center.value[1], center.value[0]],
+    };
+    const geojson = editableLayers.toGeoJSON();
+
+    // 获取多边形
+    // @ts-ignore
+    let polygonGeojson = geojson.features[0].geometry;
+
+    console.log("中心点", centerGeojson);
+    console.log("多边形", polygonGeojson);
+
+    emits("edited", {
+      center: JSON.stringify(centerGeojson),
+      polygon: JSON.stringify(polygonGeojson),
     });
   });
 };
@@ -89,24 +109,11 @@ const locate = () => {
     alert(e.message);
   });
 };
-
-const getGeoJSON = () => {
-  const geojson = editableLayers.toGeoJSON();
-  console.log("GeoJSON Data: ", JSON.stringify(geojson));
-  console.log("Center", center.value);
-};
 </script>
 
 <template>
   <div class="w-full h-full">
     <div id="map" class="z-10" ref="map"></div>
-    <van-button
-      @click="getGeoJSON"
-      block
-      class="map-tool abs-center-x bottom-40"
-    >
-      下一步</van-button
-    >
   </div>
 </template>
 
