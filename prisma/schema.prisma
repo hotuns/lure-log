@@ -42,16 +42,16 @@ enum ReelType {
 
 // 用户
 model User {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  username     String     @unique
-  phone        String     @unique
-  email        String?    @unique
-  avatar       String?
-  password     String
-  backpack     Backpack?
-  combos       Combo[]
-  records      Record[]
-  fishingSpots FishSpot[]
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  username String     @unique
+  phone    String     @unique
+  email    String?    @unique
+  avatar   String?
+  password String
+  backpack Backpack?
+  combos   Combo[]
+  records  Record[]
+  fishSpos FishSpot[]
 }
 
 // 背包
@@ -110,14 +110,14 @@ model Record {
   time        DateTime @default(now())
   description String?
 
-  user          User      @relation(fields: [userId], references: [id])
-  userId        String    @db.ObjectId
-  fishspot      FishSpot? @relation(fields: [fishingSpotId], references: [id])
-  fishingSpotId String?   @db.ObjectId
-  Combo         Combo     @relation(fields: [comboId], references: [id])
-  comboId       String    @db.ObjectId
-  fishCatch     FishCatch @relation(fields: [fishCatchId], references: [id])
-  fishCatchId   String    @unique @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @db.ObjectId
+  fishspot    FishSpot? @relation(fields: [fishSpotId], references: [id])
+  fishSpotId  String?   @db.ObjectId
+  Combo       Combo     @relation(fields: [comboId], references: [id])
+  comboId     String    @db.ObjectId
+  fishCatch   FishCatch @relation(fields: [fishCatchId], references: [id])
+  fishCatchId String    @unique @db.ObjectId
 }
 
 // 钓点
@@ -140,8 +140,8 @@ model Tag {
   name        String  @unique
   description String?
 
-  fishingSpotIds String[]   @db.ObjectId
-  fishingSpots   FishSpot[] @relation(fields: [fishingSpotIds], references: [id])
+  fishSpotIds String[]   @db.ObjectId
+  fishSpos    FishSpot[] @relation(fields: [fishSpotIds], references: [id])
 }
 
 // 鱼获

@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     time: string;
     description: string;
     comboId: string;
-    fishingSpotId: string;
+    fishSpotId: string;
     fishCatch: {
       id: string;
       speciesId: string;
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     time,
     description,
     comboId,
-    fishingSpotId,
+    fishSpotId,
     fishCatch,
   } = body;
 
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
       time,
       description,
       comboId,
-      fishingSpotId,
+      fishSpotId,
     },
   });
 

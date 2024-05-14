@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     time: string;
     description: string;
     comboId: string;
-    fishingSpotId: string;
+    fishSpotId: string;
     fishCatch: {
       speciesId: string;
       length: number;
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     };
   }>(event);
 
-  const { time, description, comboId, fishingSpotId, fishCatch } = body;
+  const { time, description, comboId, fishSpotId, fishCatch } = body;
 
   const newFishCatch = await prisma.fishCatch.create({
     data: {
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
       description,
       userId: id,
       comboId,
-      fishingSpotId,
+      fishSpotId,
       fishCatchId: newFishCatch.id,
     },
   });

@@ -1,7 +1,37 @@
 <script setup lang="ts">
+import type { Combo, FishSpecies } from "@prisma/client";
+import type { FishSpotModel } from "~/apis/fishSpot";
+
 definePageMeta({
   title: "创建记录",
 });
+
+const fishSpotStore = useFishspotStore();
+const fishSpeciesStore = useFishSpeciesStore();
+
+const fishSpot = ref<FishSpotModel>();
+
+// 装备组合相关
+const backpackStore = useBackpackStore();
+backpackStore.loadBackPackCombos();
+const combo = ref<Combo>();
+const comboCol = computed(() => {
+  return backpackStore.getCombos.map((combo) => {
+    return {
+      text: combo.name,
+      value: combo.id,
+    };
+  });
+});
+const comboName = ref<string>();
+const showComboPicker = ref(false);
+const onComboConfirm = (value: string) => {
+  combo.value = backpackStore.getCombos.find((c) => c.id === value);
+  comboName.value = combo.value?.name;
+  showComboPicker.value = false;
+};
+
+const fishSpecies = ref<FishSpecies>();
 
 const fileList = ref([{ url: "/avatar/鲌.png" }]);
 
@@ -28,7 +58,7 @@ const fishCatchData = ref<{
     </van-cell-group>
 
     <van-cell-group>
-      <van-cell title="鱼种" value="翘嘴" />
+      <van-field> </van-field>
 
       <van-field
         v-model="fishCatchData.length"
@@ -50,26 +80,26 @@ const fishCatchData = ref<{
     </van-cell-group>
 
     <van-cell-group>
-      <van-cell center title="装备组合" label="本次钓鱼使用的装备">
-        <template #right-icon>
-          <van-icon name="add" size="1.5rem" color="#1989fa" />
-        </template>
-      </van-cell>
+      <van-field
+        v-model="comboName"
+        is-link
+        readonly
+        name="picker"
+        label="装备组合"
+        placeholder="点击选择装备组合"
+        @click="showComboPicker = true"
+      />
+      <van-popup v-model:show="showComboPicker" position="bottom">
+        <van-picker
+          :columns="comboCol"
+          @confirm="onComboConfirm"
+          @cancel="showComboPicker = false"
+        />
+      </van-popup>
     </van-cell-group>
 
     <van-cell-group>
       <van-cell title="钓点" />
-      <div class="w-full h-4xl p-xl">
-        <ClientOnly>
-          <MapLeaflet />
-        </ClientOnly>
-      </div>
-
-      <van-field label="是否公开钓点">
-        <template #input>
-          <van-switch />
-        </template>
-      </van-field>
     </van-cell-group>
 
     <div style="margin: 16px">
