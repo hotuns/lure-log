@@ -20,33 +20,14 @@
 docker-compose up -d #启动
 ```
 
-2. 进入 mongodb-primary 容器中，
-
-```bash
-docker exec -it mongodb-primary bash
-
-```
-
-3. 输入 mongosh，进入 MongoDB 提供的 shell 工具，执行如下命令
-
-```js
-mongosh;
-
-rs.initiate({
-  _id: "rs0",
-  members: [
-    { _id: 0, host: "mongodb-primary:27017" },
-    { _id: 1, host: "mongodb-secondary:27017" },
-    { _id: 2, host: "mongodb-arbiter:27017", arbiterOnly: true },
-  ],
-});
-```
-
-4. 检查复制集的状态：初始化复制集后，可以运行以下命令来检查复制集的状态：
-
-```js
-rs.status();
-```
-
 编辑.env 文件
-DATABASE_URL="mongodb://localhost:27017/lurelog?readPreference=primary&ssl=false&directConnection=true"
+
+```env
+DATABASE_URL="mongodb://root:prisma@localhost:27017/lurelog?replicaSet=rs0&authSource=admin"
+
+JWT_SECRET = "xxx"
+
+API_BASE = "/"
+EXPIRESIN= "7d"
+
+```
