@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   }>(event);
   const { id: spotId } = body;
 
-  await prisma.fishspot.delete({
+  await prisma.fishSpot.delete({
     where: {
       id: spotId,
     },

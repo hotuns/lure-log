@@ -125,6 +125,7 @@ model FishSpot {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   polygon     Json // 存储GeoJSON,多边形数据
   center      Json // 存储GeoJSON,中心点数据
+  public      Boolean
   description String?
   records     Record[]
   tagIds      String[] @db.ObjectId

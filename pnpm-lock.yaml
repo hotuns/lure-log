@@ -29,6 +29,9 @@ dependencies:
   leaflet-draw:
     specifier: ^1.0.4
     version: 1.0.4
+  leaflet.chinatmsproviders:
+    specifier: ^3.0.6
+    version: 3.0.6
   leaflet.locatecontrol:
     specifier: ^0.81.0
     version: 0.81.0
@@ -4442,6 +4445,10 @@ packages:
 
   /leaflet-draw@1.0.4:
     resolution: {integrity: sha512-rsQ6saQO5ST5Aj6XRFylr5zvarWgzWnrg46zQ1MEOEIHsppdC/8hnN8qMoFvACsPvTioAuysya/TVtog15tyAQ==}
+    dev: false
+
+  /leaflet.chinatmsproviders@3.0.6:
+    resolution: {integrity: sha512-B4UPSn2MT//RkFoyrVjwqQyfKuf4tSmMjJDKQ6nqwCCGgirYKRWHafSH9JmA88WoG5pkuMXBcKQhY32FobxU/g==}
     dev: false
 
   /leaflet.locatecontrol@0.81.0:

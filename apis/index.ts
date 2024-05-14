@@ -2,6 +2,6 @@ import * as auth from "./auth";
 import * as backpack from "./backpack";
 import * as tag from "./tag";
 import * as record from "./record";
-import * as fishspot from "./fishSpot";
+import * as fishSpot from "./fishSpot";
 
-export default { auth, backpack, tag, record, fishspot };
+export default { auth, backpack, tag, record, fishSpot };

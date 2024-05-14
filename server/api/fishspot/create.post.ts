@@ -6,9 +6,16 @@ export default defineEventHandler(async (event) => {
     center: string; // 存储GeoJSON,中心点数据\
     description: string;
     tagIds: string[];
+    public?: boolean;
   }>(event);
 
-  const { polygon, center, description, tagIds } = body;
+  const {
+    polygon,
+    center,
+    description,
+    tagIds,
+    public: isPublic = false,
+  } = body;
 
   const newSpot = await prisma.fishSpot.create({
     data: {
@@ -17,8 +24,9 @@ export default defineEventHandler(async (event) => {
       description,
       userId: id,
       tagIds,
+      public: isPublic,
     },
   });
 
-  return Res({ fishspot: newSpot });
+  return Res({ fishSpot: newSpot });
 });

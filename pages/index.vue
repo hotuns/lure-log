@@ -4,7 +4,7 @@ definePageMeta({
   name: "home",
 });
 
-navigateTo("/map");
+navigateTo("/user");
 </script>
 
 <template>
