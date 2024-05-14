@@ -2,16 +2,17 @@
 import type { TagModel } from "~/apis/tag";
 
 definePageMeta({
+  name: "fishSpot-create", // 'fishspot-create' is the name of the page, which is used to navigate to this page
   title: "创建钓点",
 });
 
-const { fishspot } = useApi();
-
+const spotPublic = ref(false);
 const spotDescription = ref("");
 const spotTags = ref<TagModel[]>([]);
 const spotCenter = ref("");
 const stotPolygon = ref("");
 const mapEdited = (e: { center: string; polygon: string }) => {
+  console.log("on map edited", e);
   if (e.center) {
     spotCenter.value = e.center;
   }
@@ -19,6 +20,8 @@ const mapEdited = (e: { center: string; polygon: string }) => {
     stotPolygon.value = e.polygon;
   }
 };
+
+const fishSpotStore = useFishspotStore();
 
 const createRecord = async () => {
   // 检查参数是否完整
@@ -29,27 +32,26 @@ const createRecord = async () => {
 
   // 提交
   let newRecord = {
+    public: unref(spotPublic),
     description: unref(spotDescription),
     tags: unref(spotTags).map((tag) => tag.id),
     center: unref(spotCenter),
     polygon: unref(stotPolygon),
   };
-
-  const { data } = await useAsyncData("createFishSpot", () =>
-    fishspot.createFishingSpot(newRecord)
-  );
-  if (data.value?.success) {
-    showSuccessToast("创建成功");
-    navigateTo({ name: "fishspot" });
-  } else {
-    showFailToast("创建失败");
-  }
+  await fishSpotStore.addFishspot(newRecord);
+  navigateTo({ name: "fishspot" });
 };
 </script>
 
 <template>
   <div class="space-y-6xl pt-10 flex flex-col h-full">
     <van-cell-group>
+      <van-field name="spotPublic" label="是否公开">
+        <template #input>
+          <van-switch v-model="spotPublic" />
+        </template>
+      </van-field>
+
       <van-field
         v-model="spotDescription"
         name="spotDescription"

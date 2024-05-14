@@ -4,8 +4,8 @@ const active = ref("home");
 
 <template>
   <van-tabbar v-model="active" route>
-    <van-tabbar-item replace to="/map">
-      <span>地图</span>
+    <van-tabbar-item replace to="/fishspot">
+      <span>钓点</span>
       <template #icon>
         <div class="i-noto-v1-sunrise" />
       </template>
