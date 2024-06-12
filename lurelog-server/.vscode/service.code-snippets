@@ -1,0 +1,44 @@
+{
+	// Place your lurelog-server 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+  // import { Inject, Provide } from '@midwayjs/core';
+  // import { Combo, PrismaClient } from '@prisma/client';
+  // import { BaseService } from '../../../base/base_service';
+
+  // @Provide()
+  // export class ComboService extends BaseService<Combo> {
+  //   @Inject('prisma')
+  //   private prismaClient: PrismaClient;
+
+  //   protected get model() {
+  //     return this.prismaClient.combo;
+  //   }
+  // }
+
+
+	"service": {
+		"scope": "typescript",
+		"prefix": "createService",
+		"body": [
+      "import { Inject, Provide } from '@midwayjs/core';",
+      "import { ${1:Model}, PrismaClient } from '@prisma/client';",
+      "import { BaseService } from '../../../base/base_service';",
+      "",
+      "@Provide()",
+      "export class ${2:name}Service extends BaseService<${1:Model}> {",
+      "  @Inject('prisma')",
+      "  private prismaClient: PrismaClient;",
+      "",
+      "  protected get model() {",
+      "    return this.prismaClient.${3:model};",
+      "  }",
+      "}"
+		],
+		"description": "create service temp"
+	}
+}

@@ -1,0 +1,223 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Log {
+  id          String    @id @default(cuid())
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @default(now()) @updatedAt
+  type        String    @default("info")
+  key         String    @default("unknown")
+  description String
+  content     Json?
+}
+
+model Report {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  ip           String
+  method       String
+  path         String
+  query        String   @db.Text
+  body         String   @db.Text
+  response     String   @db.Text
+  responseTime Int
+}
+
+enum PowerValue {
+  UL
+  L
+  ML
+  M
+  MH
+  H
+  XH
+}
+
+enum Action {
+  ExtraFast
+  Fast
+  MediumFast
+  Medium
+  MediumSlow
+  Slow
+}
+
+enum Braking {
+  NoBraking
+  SpoolTension
+  Centrifugal
+  Magnetic
+  Electronic
+}
+
+enum ReelType {
+  Spinning
+  Casting
+  Conventional
+}
+
+enum Role {
+  Admin
+  User
+}
+
+// 用户
+model User {
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  phone     String     @unique
+  email     String?    @unique
+  avatar    String?
+  password  String
+  role      Role       @default(User)
+  backpack  Backpack?
+  combos    Combo[]
+  records   Record[]
+  fishSpos  FishSpot[]
+}
+
+// 背包
+model Backpack {
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  id           Int           @id @default(autoincrement())
+  fishingRods  FishingRod[]
+  fishingReels FishingReel[]
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int           @unique
+}
+
+// 钓竿
+model FishingRod {
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now()) @updatedAt
+  id         Int        @id @default(autoincrement())
+  brand      String
+  model      String
+  length     Float
+  sections   Int
+  powerValue PowerValue
+  action     Action
+  backpack   Backpack   @relation(fields: [backpackId], references: [id])
+  backpackId Int
+  Combo      Combo[]
+}
+
+// 卷线器
+model FishingReel {
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  id         Int      @id @default(autoincrement())
+  type       ReelType
+  brand      String
+  model      String
+  weight     Float
+  gearRatio  Float
+  braking    Braking
+  backpack   Backpack @relation(fields: [backpackId], references: [id])
+  backpackId Int
+  Combo      Combo[]
+}
+
+// 组合
+model Combo {
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now()) @updatedAt
+  id            Int         @id @default(autoincrement())
+  name          String
+  fishingRodId  Int
+  fishingRod    FishingRod  @relation(fields: [fishingRodId], references: [id])
+  fishingReelId Int
+  fishingReel   FishingReel @relation(fields: [fishingReelId], references: [id])
+  records       Record[]
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+}
+
+// 钓鱼记录
+model Record {
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @default(now()) @updatedAt
+  id          Int       @id @default(autoincrement())
+  time        DateTime  @default(now())
+  description String?
+
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  fishspot    FishSpot? @relation(fields: [fishSpotId], references: [id])
+  fishSpotId  Int?
+  Combo       Combo     @relation(fields: [comboId], references: [id])
+  comboId     Int
+  fishCatch   FishCatch @relation(fields: [fishCatchId], references: [id])
+  fishCatchId Int       @unique
+}
+
+// 钓点
+model FishSpot {
+  createdAt   DateTime?     @default(now())
+  updatedAt   DateTime?     @default(now()) @updatedAt
+  id          Int           @id @default(autoincrement())
+  polygon     Json // 存储GeoJSON,多边形数据
+  center      Json // 存储GeoJSON,中心点数据
+  public      Boolean
+  description String?
+  records     Record[]
+  tags        FishSpotTag[]
+  user        User          @relation(fields: [userId], references: [id])
+  userId      Int
+}
+
+// 标签
+model Tag {
+  createdAt   DateTime?     @default(now())
+  updatedAt   DateTime?     @default(now()) @updatedAt
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  description String?
+  FishSpot    FishSpotTag[]
+}
+
+// 关联表
+model FishSpotTag {
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  id         Int      @id @default(autoincrement())
+  fishSpotId Int
+  tagId      Int
+  fishSpot   FishSpot @relation(fields: [fishSpotId], references: [id])
+  tag        Tag      @relation(fields: [tagId], references: [id])
+
+  @@unique([fishSpotId, tagId])
+}
+
+// 鱼获
+model FishCatch {
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  id        Int          @id @default(autoincrement())
+  speciesId Int?
+  species   FishSpecies? @relation(fields: [speciesId], references: [id])
+  length    Float
+  weight    Float
+  Record    Record?
+}
+
+// 鱼种
+model FishSpecies {
+  createdAt   DateTime?   @default(now())
+  updatedAt   DateTime?   @default(now()) @updatedAt
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String?
+  image       String?
+  fishCatch   FishCatch[]
+}
