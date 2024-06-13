@@ -5,6 +5,11 @@ export default antfu({
   // https://unocss.dev/integrations/vscode
   unocss: true,
 
+  rules: {
+    // eslintimport/order
+    'import/order': 'off'
+  },
+
   formatters: {
     css: true,
   },
@@ -12,5 +17,6 @@ export default antfu({
   ignores: [
     '.github/**',
     'scripts/**',
+    'lurelog-server/**'
   ],
 })

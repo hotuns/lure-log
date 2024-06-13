@@ -1,8 +1,32 @@
 {
   "name": "my-midway-project",
   "version": "1.0.0",
-  "description": "",
   "private": true,
+  "description": "",
+  "author": "hotuns",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "start": "NODE_ENV=production node ./bootstrap.js",
+    "dev": "cross-env NODE_ENV=local mwtsc --watch --run @midwayjs/mock/app.js",
+    "test": "cross-env NODE_ENV=unittest jest",
+    "cov": "jest --coverage",
+    "lint": "mwts check",
+    "lint:fix": "mwts fix",
+    "ci": "npm run cov",
+    "build": "prisma generate && mwtsc --cleanOutDir",
+    "prisma:generate": "prisma generate",
+    "prisma:init": "prisma db push && prisma db seed",
+    "prisma:pull": "prisma db pull",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "prisma db seed"
+  },
   "dependencies": {
     "@midwayjs/bootstrap": "^3.12.0",
     "@midwayjs/core": "^3.12.0",
@@ -32,31 +56,7 @@
     "ts-jest": "^29.0.3",
     "typescript": "~4.8.0"
   },
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "scripts": {
-    "start": "NODE_ENV=production node ./bootstrap.js",
-    "dev": "cross-env NODE_ENV=local mwtsc --watch --run @midwayjs/mock/app.js",
-    "test": "cross-env NODE_ENV=unittest jest",
-    "cov": "jest --coverage",
-    "lint": "mwts check",
-    "lint:fix": "mwts fix",
-    "ci": "npm run cov",
-    "build": "prisma generate && mwtsc --cleanOutDir",
-    "prisma:generate": "prisma generate",
-    "prisma:init": "prisma db push && prisma db seed",
-    "prisma:pull": "prisma db pull",
-    "prisma:push": "prisma db push",
-    "prisma:seed": "prisma db seed"
-  },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "anonymous",
-  "license": "MIT"
+    "seed": "node prisma/seed.js"
+  }
 }

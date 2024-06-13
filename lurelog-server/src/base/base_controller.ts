@@ -1,5 +1,5 @@
 import { App, Inject } from '@midwayjs/core';
-import { Application, Context } from '@midwayjs/koa';
+import type { Application, Context } from '@midwayjs/koa';
 
 export abstract class BaseController {
   @App()
@@ -31,7 +31,10 @@ export abstract class BaseController {
   public async show() {
     const { params, query } = this.ctx;
     const { id } = params;
-    const result = await this.service.findById(isNaN(id) ? id : +id, query);
+    const result = await this.service.findById(
+      Number.isNaN(id) ? id : +id,
+      query
+    );
     return this.success(result);
   }
 
@@ -46,7 +49,7 @@ export abstract class BaseController {
     const { id } = params;
     const { body } = this.ctx.request;
     const result = await this.service.updateOne(
-      { id: isNaN(id) ? id : +id },
+      { id: Number.isNaN(id) ? id : +id },
       body
     );
     return this.success(result);
@@ -55,7 +58,7 @@ export abstract class BaseController {
   public async destroy() {
     const { params } = this.ctx;
     const { id } = params;
-    const result = await this.service.deleteById(isNaN(id) ? id : +id);
+    const result = await this.service.deleteById(Number.isNaN(id) ? id : +id);
     return this.success(result);
   }
 

@@ -32,7 +32,7 @@ export class AuthController extends BaseController {
   @ApiBody({ type: LoginDto })
   public async login(@Body() body: LoginDto) {
     const result = await this.userService.login(body);
-    return this.success(result);
+    return this.success({ token: result });
   }
 
   @Get('/info', { description: '获取登录信息' })

@@ -155,7 +155,7 @@ model Record {
   userId      Int
   fishspot    FishSpot? @relation(fields: [fishSpotId], references: [id])
   fishSpotId  Int?
-  Combo       Combo     @relation(fields: [comboId], references: [id])
+  combo       Combo     @relation(fields: [comboId], references: [id])
   comboId     Int
   fishCatch   FishCatch @relation(fields: [fishCatchId], references: [id])
   fishCatchId Int       @unique

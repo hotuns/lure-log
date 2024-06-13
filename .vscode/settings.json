@@ -9,7 +9,7 @@
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.organizeImports": "never"
+    "source.organizeImports": "explicit"
   },
 
   // Disable the MD033 rule

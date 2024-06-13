@@ -1,29 +1,32 @@
-import request from '@/utils/request'
+import type { Backpack, User } from "@/typing";
+import request from "@/utils/request";
+import type { ResponseBody } from "./typing";
 
 export interface LoginData {
-  username: string
-  password: string
+  method: "phone" | "password";
+  phone?: string;
+  username?: string;
+  password: string;
 }
 
 export interface LoginRes {
-  token: string
+  token: string;
 }
 
-export interface UserState {
-  uid?: number
-  name?: string
-  avatar?: string
-  prose?: string
+export interface UserInfoRes {
+  token: string;
+  user: User;
+  backpack: Backpack;
 }
 
-export function login(data: LoginData): Promise<any> {
-  return request.post<LoginRes>('/auth/login', data)
+export function login(data: LoginData) {
+  return request.post<ResponseBody<LoginRes>>("/auth/login", data);
 }
 
 export function logout() {
-  return request.post('/user/logout')
+  return request.post("/user/logout");
 }
 
 export function getUserInfo() {
-  return request<UserState>('/user/me')
+  return request<UserInfoRes>("/auth/info");
 }
