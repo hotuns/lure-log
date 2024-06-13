@@ -41,5 +41,9 @@
     "password": "请输入密码",
     "pleaseEnterUsername": "请输入用户名",
     "pleaseEnterPassword": "请输入密码"
+  },
+  "app": {
+    "title": "路亚记",
+    "description": "一个路亚活动记录应用，旨在帮助路亚爱好者管理和优化他们的路亚体验。"
   }
 }

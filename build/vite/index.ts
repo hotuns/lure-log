@@ -31,7 +31,7 @@ export function createVitePlugins() {
     Sitemap(),
 
     // https://github.com/pengzhanbo/vite-plugin-mock-dev-server
-    mockDevServerPlugin(),
+    // mockDevServerPlugin(),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
@@ -91,8 +91,8 @@ export function createVitePlugins() {
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
       manifest: {
-        name: 'vue3-vant-mobile',
-        short_name: 'vue3-vant-mobile',
+        name: '路亚记',
+        short_name: '路亚记',
         theme_color: '#ffffff',
         icons: [
           {

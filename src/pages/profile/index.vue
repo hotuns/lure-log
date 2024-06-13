@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { useUserStore } from '@/stores'
-import defaultAvatar from '@/assets/images/default-avatar.svg'
+import defaultAvatar from '@/assets/images/default-avatar.png'
 
 const { t } = useI18n()
 const userStore = useUserStore()

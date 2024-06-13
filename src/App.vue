@@ -5,12 +5,14 @@ import useRouteCache from '@/stores/modules/routeCache'
 import useRouteTransitionNameStore from '@/stores/modules/routeTransitionName'
 import useAutoThemeSwitcher from '@/hooks/useAutoThemeSwitcher'
 
+const { t } = useI18n()
+
 useHead({
-  title: 'Vue3 Vant Mobile',
+  title: t('app.title'),
   meta: [
     {
       name: 'description',
-      content: 'Vue + Vite H5 Starter Template',
+      content: t('app.description'),
     },
     {
       name: 'theme-color',
@@ -20,8 +22,9 @@ useHead({
   link: [
     {
       rel: 'icon',
-      type: 'image/svg+xml',
-      href: () => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg',
+      type: 'image/x-icon',
+      // href: () => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg',
+      href: '/favicon.ico',
     },
   ],
 })

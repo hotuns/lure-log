@@ -25,6 +25,7 @@ const title = computed(() => {
     :title="title"
     :fixed="true"
     clickable left-arrow
+    safe-area-inset-top
     @click-left="onBack"
   />
 </template>

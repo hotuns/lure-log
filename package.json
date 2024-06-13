@@ -1,9 +1,9 @@
 {
-  "name": "vue3-vant-mobile",
+  "name": "lurelog",
   "type": "module",
   "version": "2.3.4",
   "packageManager": "pnpm@9.2.0",
-  "description": "Vue + Vite H5 Starter Template",
+  "description": "a lure fishing activity recording application designed to help lure fishing enthusiasts manage and optimize their lure fishing experiences.",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env MOCK_SERVER_PORT=8086 vite",

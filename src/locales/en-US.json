@@ -41,5 +41,9 @@
     "password": "Password",
     "pleaseEnterUsername": "Please enter username",
     "pleaseEnterPassword": "Please enter password"
+  },
+  "app": {
+    "title": "Lure Log",
+    "description": "a lure fishing activity recording application designed to help lure fishing enthusiasts manage and optimize their lure fishing experiences."
   }
 }
