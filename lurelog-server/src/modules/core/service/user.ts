@@ -1,8 +1,8 @@
 import { Inject, Provide } from '@midwayjs/core';
-import { PrismaClient, User } from '@prisma/client';
+import type { PrismaClient, User } from '@prisma/client';
+import type { JwtService } from '@midwayjs/jwt';
 import { BaseService } from '../../../base/base_service';
-import { Crypto } from '../../../util/crypto';
-import { JwtService } from '@midwayjs/jwt';
+import type { Crypto } from '../../../util/crypto';
 
 @Provide()
 export class UserService extends BaseService<User> {

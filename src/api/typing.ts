@@ -4,7 +4,7 @@ export interface ResponseBody<T = any> {
     requestId?: string
     message: string
   }
-  content? : T
+  content?: T
 }
 
 /** 统一返回结构体 */
@@ -15,7 +15,7 @@ export interface PageResult<T = any> {
     requestId?: string
     message: string
   }
-  content? : {
+  content?: {
     count: number
     rows: T[]
   }

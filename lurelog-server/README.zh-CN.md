@@ -25,5 +25,4 @@ $ npm start
 - 使用 `npm run lint` 来做代码风格检查。
 - 使用 `npm test` 来执行单元测试。
 
-
 [midway]: https://midwayjs.org

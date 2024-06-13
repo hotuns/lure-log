@@ -1,4 +1,4 @@
-import { MidwayConfig } from '@midwayjs/core';
+import type { MidwayConfig } from '@midwayjs/core';
 import { renderJSON } from '@midwayjs/swagger';
 
 export default {

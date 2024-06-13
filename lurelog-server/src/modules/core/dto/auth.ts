@@ -10,7 +10,7 @@ export class LoginDto {
   @ApiProperty()
   public password: string;
 
-  @Rule(RuleType.string().pattern(/^[0-9]{11}$/))
+  @Rule(RuleType.string().pattern(/^\d{11}$/))
   @ApiProperty()
   public phone: string;
 

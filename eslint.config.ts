@@ -7,7 +7,7 @@ export default antfu({
 
   rules: {
     // eslintimport/order
-    'import/order': 'off'
+    'import/order': 'off',
   },
 
   formatters: {
@@ -17,6 +17,6 @@ export default antfu({
   ignores: [
     '.github/**',
     'scripts/**',
-    'lurelog-server/**'
+    'lurelog-server/**',
   ],
 })

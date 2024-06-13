@@ -1,5 +1,5 @@
 import { Inject, Provide } from '@midwayjs/core';
-import { FishingRod, PrismaClient } from '@prisma/client';
+import type { FishingRod, PrismaClient } from '@prisma/client';
 import { BaseService } from '../../../base/base_service';
 
 @Provide()

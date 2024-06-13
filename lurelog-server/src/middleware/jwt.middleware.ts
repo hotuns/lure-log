@@ -1,7 +1,7 @@
-import { Inject, Middleware, httpError, Config } from '@midwayjs/core';
-import { Context, NextFunction } from '@midwayjs/koa';
-import { JwtService } from '@midwayjs/jwt';
-import { PathToRegexp } from '../util/path_to_regexp';
+import { Config, Inject, Middleware, httpError } from '@midwayjs/core';
+import type { Context, NextFunction } from '@midwayjs/koa';
+import type { JwtService } from '@midwayjs/jwt';
+import type { PathToRegexp } from '../util/path_to_regexp';
 
 @Middleware()
 export class JwtMiddleware {
@@ -21,7 +21,7 @@ export class JwtMiddleware {
   resolve() {
     return async (ctx: Context, next: NextFunction) => {
       // 判断下有没有校验信息
-      if (!ctx.headers['authorization']) {
+      if (!ctx.headers.authorization) {
         throw new httpError.UnauthorizedError('没有token，请重新登录');
       }
       // 从 header 上获取校验信息
@@ -35,7 +35,7 @@ export class JwtMiddleware {
 
       if (/^Bearer$/i.test(scheme)) {
         try {
-          //jwt.verify方法验证token是否有效
+          // jwt.verify方法验证token是否有效
           const user = await this.jwtService.verify(token);
           ctx.state.user = user;
         } catch (error) {
@@ -45,7 +45,7 @@ export class JwtMiddleware {
           // ctx.set('Authorization', newToken);
 
           throw new httpError.UnauthorizedError(
-            'token过期，请重新登录' + error?.message
+            `token过期，请重新登录${error?.message}`
           );
         }
         await next();

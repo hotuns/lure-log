@@ -1,7 +1,7 @@
 import { Inject } from '@midwayjs/core';
 import { BaseController } from '../../../base/base_controller';
 import { Crud } from '../../../decorator/crud';
-import { FishSpotService } from '../service/fishSpot';
+import type { FishSpotService } from '../service/fishSpot';
 
 @Crud(
   '/fishspot',

@@ -1,8 +1,7 @@
 import { Inject } from '@midwayjs/core';
 import { BaseController } from '../../../base/base_controller';
 import { Crud } from '../../../decorator/crud';
-import { UserDto } from '../dto/user';
-import { BackpackService } from '../service/backpack';
+import type { BackpackService } from '../service/backpack';
 
 @Crud(
   '/backpack',

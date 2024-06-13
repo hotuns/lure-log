@@ -1,16 +1,17 @@
-import { Configuration, App, IMidwayContainer, Config } from '@midwayjs/core';
+import { join } from 'node:path';
+import type { IMidwayContainer } from '@midwayjs/core';
+import { App, Config, Configuration } from '@midwayjs/core';
 import * as koa from '@midwayjs/koa';
 import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
-import { join } from 'path';
-import { DefaultErrorFilter } from './filter/default.filter';
-import { ReportMiddleware } from './middleware/report.middleware';
 import * as jwt from '@midwayjs/jwt';
 import * as swagger from '@midwayjs/swagger';
-import { JwtMiddleware } from './middleware/jwt.middleware';
 import { PrismaClient } from '@prisma/client';
 import * as crossDomain from '@midwayjs/cross-domain';
 import * as cos from '@midwayjs/cos';
+import { JwtMiddleware } from './middleware/jwt.middleware';
+import { ReportMiddleware } from './middleware/report.middleware';
+import { DefaultErrorFilter } from './filter/default.filter';
 
 @Configuration({
   imports: [
@@ -41,6 +42,7 @@ export class MainConfiguration {
     // add filter
     this.app.useFilter([DefaultErrorFilter]);
   }
+
   async onStop(container: IMidwayContainer): Promise<void> {
     const prisma = await container.getAsync<PrismaClient>('prisma');
     prisma.$disconnect();

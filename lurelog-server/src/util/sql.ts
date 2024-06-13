@@ -1,5 +1,5 @@
 import { Inject, Provide, Scope, ScopeEnum } from '@midwayjs/core';
-import { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
 import * as sqlstring from 'sqlstring';
 
 @Provide()

@@ -6,7 +6,7 @@ import {
   ScopeEnum,
   Task,
 } from '@midwayjs/core';
-import { PrismaClient, Report } from '@prisma/client';
+import type { PrismaClient, Report } from '@prisma/client';
 import { BaseService } from '../../../base/base_service';
 
 @Provide()

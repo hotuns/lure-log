@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core';
-import { JwtService } from '@midwayjs/jwt';
+import type { JwtService } from '@midwayjs/jwt';
 import { ApiBody } from '@midwayjs/swagger';
-import { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
 import { BaseController } from '../../../base/base_controller';
 import { LoginDto, RegisterDto } from '../dto/auth';
-import { BackpackService } from '../service/backpack';
-import { UserService } from '../service/user';
+import type { BackpackService } from '../service/backpack';
+import type { UserService } from '../service/user';
 
 @Controller('/auth', { description: '授权管理' })
 export class AuthController extends BaseController {

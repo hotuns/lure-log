@@ -2,7 +2,7 @@ import { Inject } from '@midwayjs/core';
 import { BaseController } from '../../../base/base_controller';
 import { Crud } from '../../../decorator/crud';
 import { UserDto } from '../dto/user';
-import { UserService } from '../service/user';
+import type { UserService } from '../service/user';
 
 @Crud(
   '/user',

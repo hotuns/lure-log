@@ -15,17 +15,17 @@ export interface User {
   avatar?: string
   role?: Role
 }
-/**硬度 */
+/** 硬度 */
 export type PowerValue = 'ul' | 'l' | 'ml' | 'm' | 'mh' | 'h' | 'xh'
-/**调性 */
-export type Action = 'ExtraFast'| 'Fast' | 'MediumFast' | 'Medium' | 'MediumSlow' | 'Slow'
+/** 调性 */
+export type Action = 'ExtraFast' | 'Fast' | 'MediumFast' | 'Medium' | 'MediumSlow' | 'Slow'
 
-/**刹车 */
+/** 刹车 */
 export type Braking = 'NoBraking' | 'SpoolTension' | 'Centrifugal' | 'Magnetic' | 'Electronic'
-/**卷线器类型 */
+/** 卷线器类型 */
 export type ReelType = 'Spinning' | 'Casting' | 'Conventional'
 
-/**钓竿 */
+/** 钓竿 */
 export interface FishingRod {
   id?: number
   createdAt?: string
@@ -38,8 +38,8 @@ export interface FishingRod {
   action?: Action
 }
 
-/**卷线器 */
-export interface FishingReel{
+/** 卷线器 */
+export interface FishingReel {
   id?: number
   createdAt?: string
   updatedAt?: string
@@ -51,7 +51,7 @@ export interface FishingReel{
   braking: Braking
 }
 
-/**背包 */
+/** 背包 */
 export interface Backpack {
   id?: number
   createdAt?: string
@@ -62,7 +62,7 @@ export interface Backpack {
   fishingReels?: FishingReel[]
 }
 
-/**组合 */
+/** 组合 */
 export interface Combo {
   id?: number
   createdAt?: string
@@ -72,7 +72,7 @@ export interface Combo {
   fishingReel?: FishingReel
 }
 
-/**tag */
+/** tag */
 export interface Tag {
   id?: number
   createdAt?: string
@@ -81,7 +81,7 @@ export interface Tag {
   description?: string
 }
 
-/**钓点 */
+/** 钓点 */
 export interface FishSpot {
   id?: number
   createdAt?: string
@@ -93,7 +93,7 @@ export interface FishSpot {
   tags?: Tag[]
 }
 
-/**鱼种图鉴 */
+/** 鱼种图鉴 */
 export interface FishSpecies {
   id?: number
   createdAt?: string
@@ -104,7 +104,7 @@ export interface FishSpecies {
   fishCatch?: FishCatch[]
 }
 
-/**鱼获 */
+/** 鱼获 */
 export interface FishCatch {
   id?: number
   createdAt?: string
@@ -115,8 +115,7 @@ export interface FishCatch {
   species
 }
 
-
-/**钓鱼记录 */
+/** 钓鱼记录 */
 export interface Record {
   id?: number
   createdAt?: string

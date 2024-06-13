@@ -1,5 +1,5 @@
+import * as crypto from 'node:crypto';
 import { Config, Provide, Scope, ScopeEnum } from '@midwayjs/core';
-import * as crypto from 'crypto';
 
 @Provide()
 @Scope(ScopeEnum.Singleton)

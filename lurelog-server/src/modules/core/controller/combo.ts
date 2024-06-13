@@ -1,7 +1,7 @@
 import { Inject } from '@midwayjs/core';
 import { BaseController } from '../../../base/base_controller';
 import { Crud } from '../../../decorator/crud';
-import { ComboService } from '../service/combo';
+import type { ComboService } from '../service/combo';
 
 @Crud(
   '/combo',

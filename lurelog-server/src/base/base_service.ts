@@ -1,5 +1,5 @@
 import { App, Inject } from '@midwayjs/core';
-import { Application, Context } from '@midwayjs/koa';
+import type { Application, Context } from '@midwayjs/koa';
 
 export interface Options {
   select?: unknown;

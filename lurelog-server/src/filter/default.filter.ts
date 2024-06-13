@@ -1,6 +1,7 @@
-import { Catch, Inject, MidwayHttpError } from '@midwayjs/core';
-import { Context } from '@midwayjs/koa';
-import { LogService } from '../modules/core/service/log';
+import type { MidwayHttpError } from '@midwayjs/core';
+import { Catch, Inject } from '@midwayjs/core';
+import type { Context } from '@midwayjs/koa';
+import type { LogService } from '../modules/core/service/log';
 
 @Catch()
 export class DefaultErrorFilter {
@@ -15,7 +16,7 @@ export class DefaultErrorFilter {
       error
     );
     const { status = -1 } = error;
-    const message = /[\u4e00-\u9fa5]/.test(error.message)
+    const message = /[\u4E00-\u9FA5]/.test(error.message)
       ? error.message
       : '服务器开小差了';
     return { header: { status, message, requestId: errorLog.id } };

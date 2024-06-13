@@ -24,8 +24,8 @@ const title = computed(() => {
     v-show="title"
     :title="title"
     :fixed="true"
-    clickable left-arrow
-    safe-area-inset-top
+
+    clickable safe-area-inset-top left-arrow
     @click-left="onBack"
   />
 </template>

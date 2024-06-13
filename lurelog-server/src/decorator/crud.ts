@@ -18,11 +18,7 @@ class BaseDto {
   public limit: number;
 }
 
-export const Crud = (
-  prefix = '/',
-  routerOptions,
-  crudOptions
-): ClassDecorator => {
+export function Crud(prefix = '/', routerOptions, crudOptions): ClassDecorator {
   const decorators = {
     index: [
       Get('/', { description: '列表' }),
@@ -123,4 +119,4 @@ export const Crud = (
     }
     Controller(prefix, routerOptions)(target);
   };
-};
+}

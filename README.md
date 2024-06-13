@@ -14,7 +14,6 @@ v2 分支， 前后端分离
 
 ![er](./db-er.png)
 
-
 ## License
 
 [MIT](./LICENSE) License
