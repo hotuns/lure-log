@@ -1,16 +1,13 @@
 import {
   FORMAT,
   Inject,
-  Provide,
-  Scope,
-  ScopeEnum,
-  Task,
+  Singleton,
+  Task
 } from '@midwayjs/core';
 import type { Log, PrismaClient } from '@prisma/client';
 import { BaseService } from '../../../base/base_service';
 
-@Provide()
-@Scope(ScopeEnum.Singleton)
+@Singleton()
 export class LogService extends BaseService<Log> {
   @Inject('prisma')
   private prismaClient: PrismaClient;

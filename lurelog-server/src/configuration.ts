@@ -1,17 +1,17 @@
-import { join } from 'node:path';
 import type { IMidwayContainer } from '@midwayjs/core';
 import { App, Config, Configuration } from '@midwayjs/core';
-import * as koa from '@midwayjs/koa';
-import * as validate from '@midwayjs/validate';
+import * as cos from '@midwayjs/cos';
+import * as crossDomain from '@midwayjs/cross-domain';
 import * as info from '@midwayjs/info';
 import * as jwt from '@midwayjs/jwt';
+import * as koa from '@midwayjs/koa';
 import * as swagger from '@midwayjs/swagger';
+import * as validate from '@midwayjs/validate';
 import { PrismaClient } from '@prisma/client';
-import * as crossDomain from '@midwayjs/cross-domain';
-import * as cos from '@midwayjs/cos';
+import { join } from 'node:path';
+import { DefaultErrorFilter } from './filter/default.filter';
 import { JwtMiddleware } from './middleware/jwt.middleware';
 import { ReportMiddleware } from './middleware/report.middleware';
-import { DefaultErrorFilter } from './filter/default.filter';
 
 @Configuration({
   imports: [

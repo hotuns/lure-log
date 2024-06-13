@@ -51,4 +51,9 @@ export class AuthController extends BaseController {
       backpack,
     });
   }
+
+  @Post('/logout', { description: '用户登出' })
+  public async logout() {
+    return this.success();
+  }
 }

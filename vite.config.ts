@@ -1,9 +1,9 @@
+import autoprefixer from 'autoprefixer'
 import path from 'node:path'
 import process from 'node:process'
-import { loadEnv } from 'vite'
-import type { ConfigEnv, UserConfig } from 'vite'
 import viewport from 'postcss-mobile-forever'
-import autoprefixer from 'autoprefixer'
+import type { ConfigEnv, UserConfig } from 'vite'
+import { loadEnv } from 'vite'
 import { createVitePlugins } from './build/vite'
 import { exclude, include } from './build/vite/optimize'
 
@@ -20,9 +20,10 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       port: 3000,
       proxy: {
         '/api': {
-          target: '',
+          target: 'http://127.0.0.1:7001',
           ws: false,
           changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '')
         },
       },
     },

@@ -30,3 +30,11 @@ export function logout() {
 export function getUserInfo() {
   return request<UserInfoRes>('/auth/info')
 }
+
+export interface RegisterData {
+  phone: string
+  password: string
+}
+export function register(data: RegisterData) {
+  return request.post('/auth/register', data)
+}
